@@ -22,6 +22,34 @@ body {
     justify-content: space-between;
 }
 
+#topbar{
+    display: flex;
+    flex-direction: row;
+    flex-basis: 100%;
+    background-color: #a31313;
+    font-size: 2em;
+}
+
+#topbarElement{
+    display: flex;
+    flex-grow: 1;
+}
+
+#topbarElement:hover{
+    text-decoration: underline;
+    text-decoration: bold;
+}
+
+#events{
+    visibility: hidden;
+    max-height: 0;
+}
+
+#vote{
+    visibility: hidden;
+    max-height: 0;
+}
+
 .content-block {
     margin-bottom: 5em;
 }
