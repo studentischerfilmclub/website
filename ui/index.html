@@ -15,7 +15,9 @@
         <div id="topbarElement" onclick="changePage('events')">Eventkalender</div>
         <div id="topbarElement" onclick="changePage('vote')">Filmabstimmung</div>
     </div>
-    <div id="start">
+    <div id="contents">
+
+      <div id="start">
         <div id="aboutUs">
             Wir sind der Studentische Filmclub Heidelberg! Komm zu unseren Treffen.
         </div>
@@ -29,18 +31,22 @@
     <div id="vote">
         Hier wird abgestimmt
     </div>
+
+    </div>
     </body>
 
     <script>
     let currentPage = "start"
         function changePage(changeto){
-            // alternatively scroll or change components?
-            console.log(currentPage)
+            // alternatively scroll to change components?
             document.getElementById(currentPage).style.visibility="hidden";
             document.getElementById(currentPage).style.maxHeight="0";
             currentPage = changeto;
             document.getElementById(changeto).style.visibility="visible";
             document.getElementById(currentPage).style.maxHeight="100";
+        }
+        function fetchExample(){
+          fetch("http://localhost:5000/").then(res => res.json()).then(data => {console.log(data)});
         }
     </script>
 
