@@ -4,12 +4,23 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     padding: 0em;
+    height: 100%;
 }
 
 #contents {
     padding: 2em;
+    background-color: #6fd1da;
+    min-width: 100%;
+    min-height: 100%;
+    background-image: url('poster.png');
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 #header {
@@ -20,20 +31,15 @@ body {
     font-size: 5em;
 }
 
-#content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
 #topbar{
     display: flex;
     flex-direction: row;
     flex-basis: 100%;
     justify-content: center;
-    margin-bottom: 0.5em;
-    margin-top: 0.5em;
-    background-color: #a31313;
+    align-items: center;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    background-color: #2b8189;
     font-size: 2em;
 
 }
@@ -41,6 +47,8 @@ body {
 #topbarElement{
     display: flex;
     flex-grow: 1;
+    align-items: center;
+    justify-content: center;
 }
 
 #topbarElement:hover{
