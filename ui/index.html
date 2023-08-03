@@ -59,25 +59,27 @@
                 Die n&aumlchsten Events des Studentischen Filmclubs:
             </div>
 
-            <table id="events-list">
-                <tr>
-                    <th>test</th>
-                    <th>test</th>
-                </tr>
-                <tr>
-                    <td>bla</td>
-                    <td>bla</td>
-                </tr>
-                <tr>
-                    <td>bla</td>
-                    <td>bla</td>
-                </tr>
-            </table>
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center"></div>
+                <table id="events-list">
+                    <tr>
+                        <th>test</th>
+                        <th>test</th>
+                    </tr>
+                    <tr>
+                        <td>bla</td>
+                        <td>bla</td>
+                    </tr>
+                    <tr>
+                        <td>bla</td>
+                        <td>bla</td>
+                    </tr>
+                </table>
 
-            <div onclick="newEvent()">big plus button here</div>
+                <div id="plus" onclick="newEvent()">+</div>
 
-            <div>
-                Komm gerne dazu!
+                <div>
+                    Komm gerne dazu!
+                </div>
             </div>
         </div>
 
@@ -85,7 +87,11 @@
             function newEvent(){
                 //ask for password etc, gather data
                 let fakedata = {"name": "Film", "date": "02.08.2023", "time": "21:00", "place": "?"}
-                fetch("http:localhost:5000/writeEvent")//pass fakedata how???
+                const options = {
+                    method: 'POST',
+                    body: JSON.stringify( fakedata )  
+                };
+                fetch("http:localhost:5000/writeEvent", options)
                 getEvents()
             }
             window.onload = async function getEvents(){

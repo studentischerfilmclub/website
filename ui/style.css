@@ -82,29 +82,31 @@ td{
     padding-right: 5px;
 }
 
-
-.events-item {
-    flex: 1 1 auto;
-    display: flex; 
-    width: 100%;
-    flex-direction: row;
+#plusbutton{
+    padding-left: 2em;
+    padding-right: 2em;
+    margin-left: 2em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
     border: #f08282;
     border-style: solid;
     border-radius: 5px;
     border-width: 2px;
-    margin: 10px;
-    padding: 5px;
     background-color: white;
 }
 
-.events-row-item {
-    flex: 0 0 5%;
+#plus{
     border: #f08282;
     border-style: solid;
-    border-radius: 5px;
-    border-width: 2px;
-    margin: 10px;
-    padding: 5px;
+    border-radius: 1.3em;
+    width: 1.3em;
+    height: 1.3em;
+    border-width: 7px;
+    font-size: 2em;
+    text-align: center;
     background-color: white;
 }
 

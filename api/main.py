@@ -33,7 +33,7 @@ app.add_middleware(
 def read_root():
     return {"Hello": "World32"}
 
-@app.get("/writeEvent")
+@app.post("/writeEvent")
 def writeEvent(event):
     db["events"].insert_one(event)
 
