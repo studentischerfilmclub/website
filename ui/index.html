@@ -36,10 +36,10 @@
                     <a href="https://facebook.com">
                         <img src="assets/facebook.svg">
                     </a>
-                    <a href="https://instagram.com">
+                    <a href="https://www.instagram.com/filmclub_heidelberg">
                         <img src="assets/instagram.svg">
                     </a>
-                    <a href="https://whatsapp.com">
+                    <a href="https://chat.whatsapp.com/D86oPArrxYC2yHW03AdBDW">
                         <img src="assets/whatsapp.svg">
                     </a>
                 </div>
@@ -59,30 +59,62 @@
                 Die n&aumlchsten Events des Studentischen Filmclubs:
             </div>
 
-            <div id="events-list">
-                <div class="events-item"> 15.08.23 The Big Short </div>
-                <div class="events-item"> 01.12.23 Dune </div>
-            </div>
+            <table id="events-list">
+                <tr>
+                    <th>test</th>
+                    <th>test</th>
+                </tr>
+                <tr>
+                    <td>bla</td>
+                    <td>bla</td>
+                </tr>
+                <tr>
+                    <td>bla</td>
+                    <td>bla</td>
+                </tr>
+            </table>
+
+            <div onclick="newEvent()">big plus button here</div>
 
             <div>
                 Komm gerne dazu!
             </div>
         </div>
 
-        <script> 
+        <script>
+            function newEvent(){
+                //ask for password etc, gather data
+                let fakedata = {"name": "Film", "date": "02.08.2023", "time": "21:00", "place": "?"}
+                fetch("http:localhost:5000/writeEvent")//pass fakedata how???
+                getEvents()
+            }
             window.onload = async function getEvents(){
-              let events;
-              const res = await fetch("http://localhost:5000/readEvent");
-              events = await res.json()
-              console.log(events)
-              let x = "", i=0;
-              while (i < events.length){
-                x = x + "<div class=\"events-item\">"+events[i].name+"</div>"
-                i++;
-              }
-              console.log(x)
-              //document.getElementById("eventlist").innerHTML = x;
-              document.getElementById("events-list").innerHTML = x;
+                let events;
+                let placeLinks = {"Karlstorkino": "https://www.karlstorkino.de/reihe/studentischer-filmclub-heidelberg"}
+                const res = await fetch("http://localhost:5000/readEvent");
+                events = await res.json()
+                console.log(events)
+                let x = "<tr>"+
+                        "<th>Event</th>"+
+                        "<th>Datum</th>"+
+                        "<th>Uhrzeit</th>"+
+                        "<th>Ort</th>"+
+                    "</tr>", i=0;
+                while (i < events.length){
+                    x = x + 
+                    "<tr>"+
+                        "<td>" + events[i].name + "</td>"+
+                        "<td>" + events[i].date + "</td>"+
+                        "<td>" + events[i].time + "</td>"+
+                        //if (events[i].place in placeLinks){
+                        //    x = x+ "href="+placeLinks[events[i].place]
+                        //}
+                        "<td>" + events[i].place + "</td>"+
+                    "</tr>";
+                    i++
+                    }
+                console.log(x)
+                document.getElementById("events-list").innerHTML = x;
             }
     
         </script>

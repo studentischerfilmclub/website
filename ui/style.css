@@ -59,11 +59,35 @@ body {
 }
 
 #events-list {
+    border: #f08282;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 2px;
+    padding: 5px;
+    background-color: white;
     margin: 2em;
+}
+
+tr{
+    padding-bottom: 10px;
+}
+
+th{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+td{
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 
 .events-item {
+    flex: 1 1 auto;
+    display: flex; 
+    width: 100%;
+    flex-direction: row;
     border: #f08282;
     border-style: solid;
     border-radius: 5px;
@@ -71,7 +95,24 @@ body {
     margin: 10px;
     padding: 5px;
     background-color: white;
-    width: fit-content;
+}
+
+.events-row-item {
+    flex: 0 0 5%;
+    border: #f08282;
+    border-style: solid;
+    border-radius: 5px;
+    border-width: 2px;
+    margin: 10px;
+    padding: 5px;
+    background-color: white;
+}
+
+.line-break {
+    flex-basis: 100%;
+    width: 0px; 
+    height: 0px; 
+    overflow: hidden;
 }
 
 
