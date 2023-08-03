@@ -3,53 +3,95 @@
     <head>
         <title>Studentischer Filmclub Heidelberg</title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--TODO-->
+        <!--meta name="viewport" content="width=device-width, initial-scale=1.0"-->
 
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" 
+            href="https://fonts.googleapis.com/css?family=Permanent+Marker|REM" type="text/css">
     </head>
 
     <body>
-    <div id="topbar">
-        <div id="topbarElement" onclick="changePage('start')">Filmclub</div>
-        <div id="topbarElement" onclick="changePage('events')">Eventkalender</div>
-        <div id="topbarElement" onclick="changePage('vote')">Filmabstimmung</div>
-    </div>
-    <div id="contents">
 
-      <div id="start" style="background-image: url('poster.png'); height: 100%">
-        <div id="aboutUs">
-            Wir sind der Studentische Filmclub Heidelberg! Komm zu unseren Treffen.
+        <div class="topbar">
+            <a class="topbar-item" href="#events">
+                Events
+            </a>
+            <a class="topbar-item" href="#abstimmungen">
+                Abstimmungen
+            </a>
         </div>
-        <div id="contact">
-            Insta, Mail, Whatsapp
+        <div class="title">
+            <image src="assets/title.png" class="title">
+            <div class="subtitle-socials">
+                <div class="subtitle">
+                    <div class="subtitle-text">
+                        <div>Magst du Filme? </div>
+                        <div>Wir auch!</div>
+                    </div>
+                </div>
+                <div class="socials">
+                    <div class="socials-text">
+                        melde dich bei
+                    </div>
+                    <a href="https://facebook.com">
+                        <img src="assets/facebook.svg">
+                    </a>
+                    <a href="https://instagram.com">
+                        <img src="assets/instagram.svg">
+                    </a>
+                    <a href="https://whatsapp.com">
+                        <img src="assets/whatsapp.svg">
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
-    <div id="events">
-        Hier werden Events gelistet
-    </div>
-    <div id="vote">
-        Hier wird abgestimmt
-    </div>
 
-    </div>
+        <div class="content-block">
+            Der Studentische Filmclub Heidelberg ist eine Gruppe Filmbegeisterter.
+            Wir sehen und diskutieren Filmkunst.
+            Einmal im Monat stellen wir einen selbst ausgew&aumlhlten Film im Karlstorkino vor.
+            Wenn du dich f&uumlr Filmkunst interessierst und Ahnung davon hast oder haben m&oumlchtest, 
+            komm zu unseren Treffen und Kinovorstellungen.
+        </div>
+
+        <div class="content-block events" id="events">
+            <div>
+                Die n&aumlchsten Events des Studentischen Filmclubs:
+            </div>
+
+            <div id="events-list">
+                <div class="events-item"> 15.08.23 The Big Short </div>
+                <div class="events-item"> 01.12.23 Dune </div>
+            </div>
+
+            <div>
+                Komm gerne dazu!
+            </div>
+        </div>
+
+        <script> 
+            window.onload = async function getEvents(){
+              let events;
+              const res = await fetch("http://localhost:5000/readEvent");
+              events = await res.json()
+              console.log(events)
+              let x = "", i=0;
+              while (i < events.length){
+                x = x + "<div class=\"events-item\">"+events[i].name+"</div>"
+                i++;
+              }
+              console.log(x)
+              //document.getElementById("eventlist").innerHTML = x;
+              document.getElementById("events-list").innerHTML = x;
+            }
+    
+        </script>
+
+        <div class="content-block" id="abstimmungen">
+            Abstimmungen
+        </div>
     </body>
 
-    <script>
-    let currentPage = "start"
-        function getEvents(){
-          fetch("http://localhost:5000/readEvent").then(res => res.json()).then(data => {console.log(data)});
-        }
-        function changePage(changeto){
-            // alternatively scroll to change components?
-            document.getElementById(currentPage).style.visibility="hidden";
-            document.getElementById(currentPage).style.maxHeight="0";
-            currentPage = changeto;
-            document.getElementById(changeto).style.visibility="visible";
-            document.getElementById(currentPage).style.maxHeight="100";
-            console.log("test")
-            getEvents();
-        }
-    </script>
+    
 
 </html>
