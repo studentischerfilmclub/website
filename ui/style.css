@@ -59,51 +59,7 @@ body {
 }
 
 .events-container {
-    margin: 2em;
-}
-
-table {
-    table-layout: auto;
-    width: 100%;
-    border-collapse: collapse;
-}
-
-tr:nth-child(1) {
-    width: 30%;
-}
-
-tr:nth-child(2) {
-    width: 70%;
-}
-
-th,
-td {
-padding-bottom: 10px;
-}
-
-/*
-.events-item {
-    border: #f08282;
-    border-style: solid;
-    border-radius: 5px;
-    border-width: 2px;
-    padding: 5px;
-    background-color: white;
-    margin: 2em;
-}
-
-tr{
-    padding-bottom: 10px;
-}
-
-th{
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-td{
-    padding-left: 5px;
-    padding-right: 5px;
+    margin: 1em;
 }
 
 #plusbutton{
@@ -152,7 +108,7 @@ td{
 .topbar-item {
     margin-top: 1em;
     margin-right: 2em;
-    font-size: 15px;
+    font-size: 25px;
 }
 
 .events {
@@ -174,7 +130,7 @@ td{
 }
 
 .socials-text {
-    font-size: 15px;
+    font-size: 20px;
     padding-bottom: 8px;
     padding-right: 20px;
     font-family: "Permanent Marker", sansubtitle-socialss-serif;
@@ -187,11 +143,53 @@ td{
     stroke-linejoin:round;
 }
 
+.monospaced {
+    font-family: "Inconsolata";
+}
+
 a {
     color: inherit;
     text-decoration: inherit;
 }
 
-a:hover {
+a:hover, button {
     text-decoration: underline; 
+    cursor: pointer;
+}
+
+.alle-container {
+    display: flex;
+    justify-content: end;
+    font-size: 20px;
+    font-family: 'Permanent Marker';
+}
+
+button {
+    color: inherit;
+    background-color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+.button {
+    border: #f08282;
+    border-radius: 20px;
+    border-width: 3px;
+    border-style: solid;
+    padding-top: 3px; 
+    padding-bottom: 3px; 
+    padding-left: 15px; 
+    padding-right: 15px; 
+    /*box-shadow: 5px 3px 3px red;*/
+}
+
+.tablerow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    margin: 20px;
+}
+
+.tableitem {
+    margin: 5px
 }

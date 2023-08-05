@@ -1,64 +1,59 @@
 #!/bin/python
-from typing import Union
-from fastapi import FastAPI
+from typing import Union, List
+from fastapi import FastAPI, Request, Response
+from fastapi.responses import PlainTextResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-from datetime import date
 import uvicorn
 import os
 import logging
 import sys
 import pymongo
+import traceback
+import datetime
+from models import *
 
+# FastAPI config
 app = FastAPI()
-
-dbClient = pymongo.MongoClient(host="db", port=27017)#
-db = dbClient["filmclub"]
-
-origins = [
-    "http://localhost:3000",
-    "db:27017"
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+@app.exception_handler(Exception)
+async def exception_handler(request: Request, exception: Exception):
+    return PlainTextResponse(status_code=500, content=traceback.format_exc())
 
+# pymongo config
+dbClient = pymongo.MongoClient(host="db")
+db = dbClient.filmclub
 
+# routes
 @app.get("/")
-def read_root():
+async def read_root():
     return {"Hello": "World32"}
 
-@app.post("/writeEvent")
-def writeEvent(event):
-    db["events"].insert_one(event)
+@app.post("/postEvent")
+async def writeEvent(event_data: EventData):
+    event_data = jsonable_encoder(event_data)
+    if db.events.count_documents(event_data) != 0:
+        return Response(status_code=201, content="Event already present.")
 
-@app.get("/readEvent")
-def readEvent():
-    
-    events = list()
-    for event in db.events.find({}):
-        del event["_id"]
-    
-        if dateNotPast(event["date"]):
-            events.append(event)
-        else:
-            db.events.delete_one({"name": event["name"]})
-    return events
+    db_confirmation = db["events"].insert_one(jsonable_encoder(event_data))
+    if db_confirmation.acknowledged:
+        return Response(status_code="200", content="Event created.")
+    else:
+        return Response(status_code=400, content="Error inserting document.")
 
-def dateNotPast(givenDate):
-    today = date.today()
-    if int(givenDate[6:]) < today.year:
-        return False
-    if int(givenDate[6:]) == today.year and int(givenDate[3:5]) < today.month:
-        return False
-    if int(givenDate[6:]) == today.year and int(givenDate[3:5]) == today.month and int(givenDate[:2]) < today.day:
-        return False
-    return True
+@app.get("/getAllEvents", response_model=list[Event])
+async def getEvents():
+    return db.events.find({}).sort("date", pymongo.ASCENDING)
+
+@app.get("/getNextEvents", response_model=list[Event])
+async def getEvents() -> Any:
+    return db.events.find({"date": {"$gte": datetime.datetime.now()}}, batch_size=20, sort=[("date", pymongo.ASCENDING)])
 
 if __name__ == "__main__":
     port = os.environ.get("PORT", None)

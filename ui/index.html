@@ -7,11 +7,12 @@
 
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" 
-            href="https://fonts.googleapis.com/css?family=Permanent+Marker|REM" type="text/css">
+            href="https://fonts.googleapis.com/css?family=Permanent+Marker|REM|Inconsolata" type="text/css">
+        
+        <script src="index.js"></script>
     </head>
 
     <body>
-
         <div class="topbar">
             <a class="topbar-item" href="#events">
                 Events
@@ -59,77 +60,26 @@
                 Die n&aumlchsten Events des Studentischen Filmclubs:
             </div>
 
-            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center"></div>
-                <table id="events-list">
-                    <tr>
-                        <th>test</th>
-                        <th>test</th>
-                    </tr>
-                    <tr>
-                        <td>bla</td>
-                        <td>bla</td>
-                    </tr>
-                    <tr>
-                        <td>bla</td>
-                        <td>bla</td>
-                    </tr>
+            <div class="events-container">
+                <table class="calculator">
+                   <tbody id="events-inject">
+                        <!--tr>Keine Events verf&uumlgbar :(</tr-->
+                    </tbody>
                 </table>
+            </div>
 
-                <div id="plus" onclick="newEvent()">+</div>
-
-                <div>
-                    Komm gerne dazu!
-                </div>
+            <div class="alle-container">
+                <button class="button" onclick="getAllEvents()">
+                    alle
+                </button>
+            </div>
+            <div>
+                Komm gerne dazu!
             </div>
         </div>
-
-        <script>
-            function newEvent(){
-                //ask for password etc, gather data
-                let fakedata = {"name": "Film", "date": "02.08.2023", "time": "21:00", "place": "?"}
-                const options = {
-                    method: 'POST',
-                    body: JSON.stringify( fakedata )  
-                };
-                fetch("http:localhost:5000/writeEvent", options)
-                getEvents()
-            }
-            window.onload = async function getEvents(){
-                let events;
-                let placeLinks = {"Karlstorkino": "https://www.karlstorkino.de/reihe/studentischer-filmclub-heidelberg"}
-                const res = await fetch("http://localhost:5000/readEvent");
-                events = await res.json()
-                console.log(events)
-                let x = "<tr>"+
-                        "<th>Event</th>"+
-                        "<th>Datum</th>"+
-                        "<th>Uhrzeit</th>"+
-                        "<th>Ort</th>"+
-                    "</tr>", i=0;
-                while (i < events.length){
-                    x = x + 
-                    "<tr>"+
-                        "<td>" + events[i].name + "</td>"+
-                        "<td>" + events[i].date + "</td>"+
-                        "<td>" + events[i].time + "</td>"+
-                        //if (events[i].place in placeLinks){
-                        //    x = x+ "href="+placeLinks[events[i].place]
-                        //}
-                        "<td>" + events[i].place + "</td>"+
-                    "</tr>";
-                    i++
-                    }
-                console.log(x)
-                document.getElementById("events-list").innerHTML = x;
-            }
-    
-        </script>
 
         <div class="content-block" id="abstimmungen">
             Abstimmungen
         </div>
     </body>
-
-    
-
 </html>

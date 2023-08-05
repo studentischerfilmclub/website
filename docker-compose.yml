@@ -25,6 +25,8 @@ services:
         image: mongo
         volumes:
             - db:/data/db
+            # after creating db volume
+            # - "./dump:/dump"
         ports:
             - 27017:27017
 
