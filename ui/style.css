@@ -58,8 +58,27 @@ body {
     width: 100%;
 }
 
-.events-list {
+.events-container {
     margin: 2em;
+}
+
+table {
+    table-layout: auto;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tr:nth-child(1) {
+    width: 30%;
+}
+
+tr:nth-child(2) {
+    width: 70%;
+}
+
+th,
+td {
+padding-bottom: 10px;
 }
 
 /*
