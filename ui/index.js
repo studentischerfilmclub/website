@@ -24,19 +24,16 @@ async function fetchApi(method, path, data) {
     const request_url = API_URL + path
     const response = await fetch(request_url, options);
     if (response.ok) {
-        return response.json();
+        try {
+            return response.json();
+        } catch(err) {
+            return response.text();
+        }
     } else {
         console.log("ERROR:")
         console.log(response)
         throw "FetchError"
     }
-}
-
-function newEvent(){
-    //ask for password etc, gather data
-    let fakedata = {"name": "Film", "date": "02.08.2023", "time": "21:00", "place": "?"}
-    fetchApi("POST", "postEvent", fakedata)
-    getNextEvents()
 }
 
 // let placeLinks = {"Karlstorkino": "https://www.karlstorkino.de/reihe/studentischer-filmclub-heidelberg"}
@@ -53,7 +50,7 @@ function datetimeFormat(datetime) {
 async function fillEvents(events) {
     const event_rows = events.map((event) => {
         return `<div class="tablerow">
-        <div class="tableitem monospaced">${datetimeFormat(event.date)}</div>
+        <div class="tableitem monospaced">${datetimeFormat(event.datetime)}</div>
         <div class="tableitem">${event.name} @${event.location}</div>
         </div>`
     })
@@ -69,4 +66,23 @@ async function getAllEvents() {
     const events = await fetchApi("GET", "getAllEvents")
     console.log(events)
     fillEvents(events)
+}
+
+async function askEvent() {
+    document.getElementById("new-event-popup-container").style.visibility = "visible"
+    document.getElementById("new-event-form").addEventListener("submit", submitNewEvent)
+    document.getElementById("date").valueAsDate = new Date()
+}
+
+async function submitNewEvent(e) {
+    e.preventDefault();
+    const data = Object.fromEntries((new FormData(e.target)).entries())
+    document.getElementById("new-event-popup-container").style.visibility = "hidden"
+    const resp = await fetchApi("POST", "postEvent", data)
+    console.log(resp)
+    document.getElementById("new-event-form").reset()
+}
+
+async function hideNewEvent() {
+    document.getElementById("new-event-popup-container").style.visibility = "hidden"
 }

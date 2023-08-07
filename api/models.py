@@ -6,13 +6,15 @@ from typing import Optional, Dict, Any
 
 class EventData(BaseModel):
     name: str
-    date: datetime.datetime
+    date: datetime.date
+    time: datetime.time
     location: str
+    link: Optional[str]
 
 class Event(BaseModel):
     id: ObjectId = Field(alias="_id")
     name: str
-    date: datetime.datetime
+    datetime: datetime.datetime
     location: str
 
     class Config:
@@ -22,7 +24,7 @@ class Event(BaseModel):
         json_schema_extra = {
             "example": {
                 "name": "Dune",
-                "date": "2023-08-15T19:00",
+                "datetime": "2023-08-15T19:00",
                 "location": "Luxor",
             }
         }

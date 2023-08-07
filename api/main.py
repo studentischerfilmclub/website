@@ -1,7 +1,7 @@
 #!/bin/python
 from typing import Union, List
 from fastapi import FastAPI, Request, Response
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import PlainTextResponse, JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -38,22 +38,29 @@ async def read_root():
 @app.post("/postEvent")
 async def writeEvent(event_data: EventData):
     event_data = jsonable_encoder(event_data)
+    event_data["datetime"] = datetime.datetime.fromisoformat(event_data["date"] + "T" + event_data["time"])
+    del event_data["date"]
+    del event_data["time"]
+    if not event_data["link"]:
+        del event_data["link"]
     if db.events.count_documents(event_data) != 0:
-        return Response(status_code=201, content="Event already present.")
+        return JSONResponse(status_code=201, content={"msg": "Event already present."})
 
-    db_confirmation = db["events"].insert_one(jsonable_encoder(event_data))
+    db_confirmation = db["events"].insert_one(event_data)
     if db_confirmation.acknowledged:
-        return Response(status_code="200", content="Event created.")
+        logging.info(f"Inserted event: {event_data}")
+        return JSONResponse(status_code=200, content={"msg": "Event created."})
     else:
-        return Response(status_code=400, content="Error inserting document.")
+        logging.error(f"NOT Inserted event: {event_data}")
+        return JSONResponse(status_code=400, content={"msg": "Error inserting document."})
 
 @app.get("/getAllEvents", response_model=list[Event])
-async def getEvents():
-    return db.events.find({}).sort("date", pymongo.ASCENDING)
+async def getAllEvents():
+    return list(db.events.find({}).sort("datetime", pymongo.ASCENDING))
 
 @app.get("/getNextEvents", response_model=list[Event])
-async def getEvents() -> Any:
-    return db.events.find({"date": {"$gte": datetime.datetime.now()}}, batch_size=20, sort=[("date", pymongo.ASCENDING)])
+async def getNextEvents() -> Any:
+    return list(db.events.find({"datetime": {"$gte": datetime.datetime.now()}}).sort("datetime", pymongo.ASCENDING))
 
 if __name__ == "__main__":
     port = os.environ.get("PORT", None)

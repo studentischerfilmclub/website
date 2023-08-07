@@ -162,6 +162,7 @@ a:hover, button {
     justify-content: end;
     font-size: 20px;
     font-family: 'Permanent Marker';
+    width: 100%;
 }
 
 button {
@@ -192,4 +193,62 @@ button {
 
 .tableitem {
     margin: 5px
+}
+
+#new-event-popup-container{
+    position: fixed; 
+    left: 0px; 
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    visibility: hidden;
+}
+
+.background {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-window {
+    z-index: 3;
+    font-family: "REM", sans-serif;
+    padding: 30px;
+    border-radius: 5px;
+    background-color: white;
+}
+
+#new-event-form {
+    /* display: flex; 
+    flex-direction: column; */
+    display:grid;
+    grid-template-columns: max-content max-content;
+    grid-gap:5px;
+}
+
+#new-event-form label        { text-align:left; }
+#new-event-form label, input { padding: 5px; margin: 10px}
+
+#new-event-form .ok-container .button {
+    margin-right: 20px;
+}
+
+.button {
+    margin: 10px
+}
+
+.ok-container {
+    display: flex;
+    justify-content: end;
+    font-size: 20px;
+    font-family: 'Permanent Marker', sans-serif;
+    width: 100%;
 }

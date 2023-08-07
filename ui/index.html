@@ -72,14 +72,42 @@
                 <button class="button" onclick="getAllEvents()">
                     alle
                 </button>
+                <button class="button" onclick="askEvent()">
+                    neu
+                </button>
+                <div id="new-event-popup-container">
+                    <div class="background" onclick="hideNewEvent()">
+                    </div>
+                    <div class="popup-window">
+                        Neues Event:
+                        <form id="new-event-form">
+                            <label for="date">Datum </label>
+                            <input class="new-event-item" type="date" id="date" name="date">
+                            <label for="time">Uhrzeit</label>
+                            <input class="new-event-item" type="time" id="time" name="time" value="19:00">
+                            <label for="name">Name </label>
+                            <input class="new-event-item" type="text" id="name" name="name" value="Test">
+                            <label for="location">Ort</label>
+                            <input class="new-event-item" type="text" id="location" name="location" value="Data">
+                            <label for="location">Link (optional)</label>
+                            <input class="new-event-item" type="text" id="link" name="link">
+                            <div></div>
+                            <div class="ok-container">
+                                <button class="button" type="submit">
+                                    Ok
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div>
-                Komm gerne dazu!
-            </div>
+        <div>
+            Komm gerne dazu!
         </div>
+    </div>
 
-        <div class="content-block" id="abstimmungen">
-            Abstimmungen
-        </div>
-    </body>
+    <div class="content-block" id="abstimmungen">
+        Abstimmungen
+    </div>
+</body>
 </html>
