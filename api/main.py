@@ -137,7 +137,7 @@ async def closeElection() -> dict:
 
     return election
 
-@app.get("/getlastElections", response_model=list[Election])
+@app.get("/getLastElections", response_model=list[Election])
 async def getLastElections():
     return db.elections.find()
 
