@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 import uuid
 import datetime
 from bson import ObjectId
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 
 class EventData(BaseModel):
     name: str
@@ -28,4 +28,3 @@ class Event(BaseModel):
                 "location": "Luxor",
             }
         }
-

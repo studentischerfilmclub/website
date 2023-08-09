@@ -1,5 +1,15 @@
 const DEBUG = true
 const API_URL = "http://localhost:5000/"
+const WS_URL = "ws://localhost:5000/"
+
+class FetchError extends Error {
+    constructor(message, status) {
+      super(message)
+      this.name = "FetchError"
+      this.status = status
+      this.msg = message
+    }
+  }
 
 async function fetchApi(method, path, data) {
     let options = {
@@ -22,22 +32,55 @@ async function fetchApi(method, path, data) {
     }
 
     const request_url = API_URL + path
-    const response = await fetch(request_url, options);
-    if (response.ok) {
-        try {
-            return response.json();
-        } catch(err) {
-            return response.text();
-        }
-    } else {
-        console.log("ERROR:")
-        console.log(response)
-        throw "FetchError"
-    }
+    return await fetch(request_url, options)
+}
+
+async function websocketApi(path) {
+    return new WebSocket(WS_URL + path)
 }
 
 // let placeLinks = {"Karlstorkino": "https://www.karlstorkino.de/reihe/studentischer-filmclub-heidelberg"}
-window.addEventListener("load", getNextEvents)
+window.addEventListener("load", onLoad)
+
+let socket;
+
+async function onLoad() {
+    getNextEvents()
+    fetchApi("GET", "getVoteWebSocketId")
+    .then((resp) => resp.json())
+    .then((id) => {
+        socket = websocketApi("voteWebSocket/" + id)
+        socket.onmessage = handleSocketMessage
+    })
+}
+
+let is_live = false;
+let vote_status = {}
+let voters = 0;
+
+function handleSocketMessage(event) {
+    const data = JSON.parse(event.data)
+    console.log("WS message:", data)
+    if ("is_live" in data) {
+        is_live = data["is_live"]
+        setLiveIcon(is_live)
+    } 
+    if ("vote_status" in data) {
+        vote_status = data["vote_status"]
+    }
+    if ("new_voter" in data) {
+        voters += data["new_voter"]
+    }
+    for (let key in data) {
+        if (!key in Object({"is_live": null, "vote_status": null, "new_voter": null})) {
+            console.log("Unexpected key in websocket message:", data)
+        }
+    }
+}
+
+function setLiveIcon(live) {
+    document.getElementById("vote-live").style.visibility = (live ? "visible" : "hidden")
+}
 
 function datetimeFormat(datetime) {
     // datetime in: YYYY-mm-ddThh:mm
@@ -58,20 +101,25 @@ async function fillEvents(events) {
 }
 
 async function getNextEvents() {
-    const events = await fetchApi("GET", "getNextEvents")
-    fillEvents(events.slice(0,5))
+    fetchApi("GET", "getNextEvents")
+    .then((resp) => resp.json())
+    .then((events) => fillEvents(events.slice(0,5)))
 }
 
 async function getAllEvents() {
-    const events = await fetchApi("GET", "getAllEvents")
-    console.log(events)
-    fillEvents(events)
+    fetchApi("GET", "getAllEvents")
+    .then((resp) => resp.json())
+    .then((events) => fillEvents(events))
 }
 
 async function askEvent() {
-    document.getElementById("new-event-popup-container").style.visibility = "visible"
+    document.getElementById("new-event").style.visibility = "visible"
     document.getElementById("new-event-form").addEventListener("submit", submitNewEvent)
     document.getElementById("date").valueAsDate = new Date()
+}
+
+function getFormData(form) {
+    return Object.fromEntries((new FormData(form)).entries())
 }
 
 async function submitNewEvent(e) {
@@ -84,5 +132,45 @@ async function submitNewEvent(e) {
 }
 
 async function hideNewEvent() {
-    document.getElementById("new-event-popup-container").style.visibility = "hidden"
+    let containers = document.getElementsByClassName("popup-container")
+    for (let container of containers) {
+        container.style.visibility = "hidden"
+    }
+}
+
+async function askVote() {
+    document.getElementById("new-vote").style.visibility = "visible"
+    document.getElementById("new-vote-form").addEventListener("submit", submitNewVote)
+}
+
+let choice_number = 3
+
+async function addChoice() {
+    let new_choice = document.createElement("input")
+    new_choice.type = "text"
+    choice_number++
+    new_choice.name = String(choice_number)
+    new_choice.classList.add("new-event-item")
+    let form = document.getElementById("new-vote-inputs")
+    form.appendChild(new_choice)
+    console.log("added")
+}
+
+async function removeChoice() {
+    let form = document.getElementById("new-vote-inputs")
+    form.removeChild(form.lastChild)
+    choice_number--
+}
+
+async function submitNewVote(e) {
+    e.preventDefault()
+    const candidates = Object.values(getFormData(e.target))
+    try {
+        await fetchApi("POST", "postElection", candidates)
+    } catch(err) {
+        console.log(err.message)
+        document.getElementById("new-vote-error").innerHTML = err.msg
+    }
+    document.getElementById("new-vote").style.visibility = "hidden"
+    document.getElementById("new-vote-form").reset()
 }
