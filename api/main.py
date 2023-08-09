@@ -74,15 +74,15 @@ async def writeEvent(event_data: EventData):
     if not event_data["link"]:
         del event_data["link"]
     if db.events.count_documents(event_data) != 0:
-        return JSONResponse(status_code=201, content={"msg": "Event already present."})
+        return Response(status_code=201, content="Event already present.")
 
     db_confirmation = db["events"].insert_one(event_data)
     if db_confirmation.acknowledged:
         logging.info(f"Inserted event: {event_data}")
-        return JSONResponse(status_code=200, content={"msg": "Event created."})
+        return Response(status_code=200, content="Event created.")
     else:
         logging.error(f"NOT Inserted event: {event_data}")
-        return JSONResponse(status_code=400, content={"msg": "Error inserting document."})
+        return Response(status_code=500, content="Error inserting document.")
 
 @app.get("/getAllEvents", response_model=list[Event])
 async def getAllEvents():

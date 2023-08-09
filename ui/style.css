@@ -318,7 +318,7 @@ button {
     visibility: hidden;
 }
 
-#new-vote-error {
+#new-vote-error, #new-event-error {
     color: red;
 }
 

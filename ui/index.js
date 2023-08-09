@@ -142,6 +142,7 @@ async function getAllEvents() {
 
 async function askEvent() {
     document.getElementById("new-event").style.visibility = "visible"
+    document.getElementById("new-event-error").innerHTML = ""
     document.getElementById("new-event-form").addEventListener("submit", submitNewEvent)
     document.getElementById("date").valueAsDate = new Date()
 }
@@ -153,10 +154,19 @@ function getFormData(form) {
 async function submitNewEvent(e) {
     e.preventDefault();
     const data = Object.fromEntries((new FormData(e.target)).entries())
-    document.getElementById("new-event-popup-container").style.visibility = "hidden"
-    const resp = await fetchApi("POST", "postEvent", data)
-    console.log(resp)
-    document.getElementById("new-event-form").reset()
+    fetchApi("POST", "postEvent", data)
+    .then((resp) => {
+        if (!resp.ok) {
+            resp.text().then((text) => {
+                console.error(resp.status, resp.statusText, text)
+                document.getElementById("new-event-error").innerHTML = text
+            })
+        } else {
+            document.getElementById("new-event").style.visibility = "hidden"
+            document.getElementById("new-event-form").reset()
+            getNextEvents()
+        }
+    })
 }
 
 async function hideNewEvent() {
@@ -205,5 +215,13 @@ async function submitNewVote(e) {
                 document.getElementById("new-vote-error").innerHTML = msg
             })
         }
+    })
+}
+
+async function closeVote() {
+    e.preventDefault()
+    fetchApi("GET", "closeVote")
+    .then((resp) => {
+
     })
 }
