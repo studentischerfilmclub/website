@@ -127,7 +127,7 @@ async def closeElection() -> dict:
     # close election
     del election["live"]
     db.elections.update_one({"live": True}, {"$set": {"live": False}})
-    manager.broadcast({"is_live": False})
+    await manager.broadcast({"is_live": False})
 
     # count ballots
     ballots = list(db.elections.find({"election_id": election["_id"]}))
@@ -147,7 +147,7 @@ async def getVoteWebSocketId(request: Request):
 async def voteWS(websocket: WebSocket, client_id: str):
     # use client_ip as identification
     await manager.connect(websocket, client_id)
-    live_vote = db.votes.find_one({"live": True})
+    live_vote = db.elections.find_one({"live": True})
     await websocket.send_json({"is_live": (live_vote is not None)})
 
     async for data in websocket.iter_json():
