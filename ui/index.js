@@ -35,7 +35,7 @@ async function fetchApi(method, path, data) {
     return await fetch(request_url, options)
 }
 
-async function websocketApi(path) {
+function websocketApi(path) {
     return new WebSocket(WS_URL + path)
 }
 
@@ -46,12 +46,40 @@ let socket;
 
 async function onLoad() {
     getNextEvents()
+    getLastElections()
+
+    // connect to websocket
     fetchApi("GET", "getVoteWebSocketId")
     .then((resp) => resp.json())
     .then((id) => {
         socket = websocketApi("voteWebSocket/" + id)
         socket.onmessage = handleSocketMessage
     })
+}
+
+async function getLastElections() {
+    fetchApi("GET", "getLastElections")
+    .then((resp) => resp.json())
+    .then((elections) => {
+        document.getElementById("last-votes").innerHTML = createElectionsHtml(elections)
+    })
+}
+
+function createElectionsHtml(elections) {
+    // console.log(elections)
+    const election_rows = elections.map((election) => {
+        console.log(election)
+        const candidate_rows = Object.entries(election.candidates).map((candidate_and_vote) => {
+            return `<div>${candidate_and_vote[0]}</div><div>${candidate_and_vote[1]}</div>`
+        })
+        return `<div class="election">
+            <div>${datetimeFormat(election.published)}</div>
+            <div class="candidates">
+                ${candidate_rows.join("")}
+            <div>
+        </div>`
+    })
+    return election_rows.join("")
 }
 
 let is_live = false;

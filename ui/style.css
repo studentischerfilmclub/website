@@ -321,3 +321,13 @@ button {
 #new-vote-error {
     color: red;
 }
+
+.election {
+    padding: 1em;
+}
+
+.candidates {
+    padding: 0.5em;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
