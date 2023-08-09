@@ -101,7 +101,7 @@ async def postElection(candidates: list[str]):
     confirmation = db.elections.insert_one(election)
 
     if confirmation.acknowledged:
-        manager.broadcast({"is_live": True})
+        await manager.broadcast({"is_live": True})
         return PlainTextResponse(status_code=200,
                             content="Vote created.")
     else:
