@@ -137,6 +137,10 @@ async def closeElection() -> dict:
 
     return election
 
+@app.get("/getlastElections", response_model=list[Election])
+async def getLastElections():
+    return db.elections.find()
+
 salt = random.getrandbits(128)
 
 @app.get("/getVoteWebSocketId")
