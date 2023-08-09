@@ -165,12 +165,17 @@ async function removeChoice() {
 async function submitNewVote(e) {
     e.preventDefault()
     const candidates = Object.values(getFormData(e.target))
-    try {
-        await fetchApi("POST", "postElection", candidates)
-    } catch(err) {
-        console.log(err.message)
-        document.getElementById("new-vote-error").innerHTML = err.msg
-    }
-    document.getElementById("new-vote").style.visibility = "hidden"
-    document.getElementById("new-vote-form").reset()
+    fetchApi("POST", "postElection", candidates)
+    .then((resp) => {
+        if (resp.ok) {
+            document.getElementById("new-vote").style.visibility = "hidden"
+            document.getElementById("new-vote-form").reset()
+        }
+        else {
+            resp.text().then((msg) => {
+                console.error(resp.status, resp.statusText, msg)
+                document.getElementById("new-vote-error").innerHTML = msg
+            })
+        }
+    })
 }
