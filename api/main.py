@@ -14,6 +14,9 @@ from models import *
 import uuid
 import random
 
+FORMAT = "%(levelname)s:\t %(message)s"
+logging.basicConfig(format=FORMAT, level=logging.INFO)
+
 # FastAPI config
 app = FastAPI()
 app.add_middleware(
