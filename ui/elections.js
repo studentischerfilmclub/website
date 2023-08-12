@@ -83,6 +83,12 @@ async function submitNewElection(e) {
     }
 }
 
+async function askElection() {
+    document.getElementById("new-election").style.visibility = "visible"
+    document.getElementById("new-election-error").innerHTML = ""
+    document.getElementById("new-election-form").addEventListener("submit", submitNewElection)
+}
+
 let choice_number = 3
 
 async function addChoice() {
@@ -108,7 +114,7 @@ async function closeElection() {
 }
 
 document.getElementById("get-past-elections").onclick = getPastElections
-document.getElementById("submit-new-election").onclick = submitNewElection
+document.getElementById("ask-new-election").onclick = askElection
 document.getElementById("close-election").onclick = closeElection
 document.getElementById("election-add-choice").onclick = addChoice
 document.getElementById("election-remove-choice").onclick = removeChoice
