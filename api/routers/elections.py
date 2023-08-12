@@ -78,7 +78,7 @@ async def get_live_candidates() -> list[str]:
         raise HTTPException(status_code=400, detail="no live election")
     if "candidates" not in live_election:
         raise HTTPException(status_code=500, detail="live election malformed")
-    return live_election["candidates"].keys()
+    return live_election.candidates.keys()
 
 @router.get("/websocket_id")
 async def get_elections_websocket_id(ip: Annotated[str, Depends(ip_address)]) -> str:

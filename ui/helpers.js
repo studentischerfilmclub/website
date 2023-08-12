@@ -5,3 +5,7 @@ export function datetimeFormat(datetime) {
     const time = datetime.slice(sep_index+1).split(":")
     return `${date[2]}.${date[1]}.${date[0]} ${time.slice(0,2).join(":")}`
 }
+
+export function getFormData(form) {
+    return Object.fromEntries((new FormData(form)).entries())
+}

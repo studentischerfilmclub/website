@@ -1,5 +1,5 @@
 import {fetchApi} from "./api.js"
-import {datetimeFormat} from "./datetimeFormat.js"
+import {datetimeFormat, getFormData} from "./helpers.js"
 
 async function fillEvents(events) {
     const event_rows = events.map((event) => {
@@ -16,12 +16,12 @@ export async function getNextEvents() {
     fillEvents(events.slice(0,5))
 }
 
-export async function getAllEvents() {
-    const events = await fetchApi("GET", "getAllEvents")
+async function getAllEvents() {
+    const events = await fetchApi("GET", "events/all")
     fillEvents(events)
 }
 
-export async function askEvent() {
+async function askEvent() {
     document.getElementById("new-event").style.visibility = "visible"
     document.getElementById("new-event-error").innerHTML = ""
     document.getElementById("new-event-form").addEventListener("submit", submitNewEvent)
@@ -30,9 +30,8 @@ export async function askEvent() {
 
 async function submitNewEvent(e) {
     e.preventDefault();
-    const data = Object.fromEntries((new FormData(e.target)).entries())
     try {
-        await fetchApi("POST", "postEvent", data)
+        await fetchApi("POST", "events/post", getFormData(e.target))
         document.getElementById("new-event").style.visibility = "hidden"
         document.getElementById("new-event-form").reset()
         getNextEvents()
@@ -41,26 +40,12 @@ async function submitNewEvent(e) {
     }
 }
 
-export async function askVote() {
+async function askVote() {
     document.getElementById("new-vote").style.visibility = "visible"
     document.getElementById("new-vote-form").addEventListener("submit", submitNewVote)
 }
 
 let choice_number = 3
 
-async function addChoice() {
-    let new_choice = document.createElement("input")
-    new_choice.type = "text"
-    choice_number++
-    new_choice.name = String(choice_number)
-    new_choice.classList.add("new-event-item")
-    let form = document.getElementById("new-vote-inputs")
-    form.appendChild(new_choice)
-    console.log("added")
-}
-
-async function removeChoice() {
-    let form = document.getElementById("new-vote-inputs")
-    form.removeChild(form.lastChild)
-    choice_number--
-}
+document.getElementById("get-all-events").onclick = getAllEvents
+document.getElementById("ask-event").onclick = askEvent

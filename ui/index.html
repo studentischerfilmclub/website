@@ -11,9 +11,6 @@
         <link rel="stylesheet" 
             href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         
-        <script type="module" src="index.js"></script>
-        <script type="module" src="elections.js"></script>
-        <script type="module" src="events.js"></script>
     </head>
 
     <body>
@@ -73,14 +70,14 @@
             </div>
 
             <div class="alle-container">
-                <button class="button" onclick="getAllEvents()">
+                <button class="button" id="get-all-events">
                     alle
                 </button>
-                <button class="button" onclick="askEvent()">
+                <button class="button" id="ask-event">
                     neu
                 </button>
                 <div id="new-event" class="popup-container">
-                    <div class="background" onclick="hidePopupContainers()">
+                    <div class="background">
                     </div>
                     <div class="popup-window">
                         Neues Event:
@@ -122,17 +119,17 @@
         <div id="live-election"></div>
         <div id="last-elections"></div>
         <div class="alle-container">
-            <button class="button" onclick="getPastElections()">
+            <button class="button" id="get-past-elections">
                 alle
             </button>
-            <button class="button" onclick="askElection()">
+            <button class="button" id="submit-new-election">
                 neu
             </button>
-            <button class="button" onclick="closeElection()">
+            <button class="button" id="close-election">
                 schlie&#223en
             </button>
             <div id="new-election" class="popup-container">
-                <div class="background" onclick="hidePopupContainers()">
+                <div class="background">
                 </div>
                 <div class="popup-window">
                     Neue Abstimmung:
@@ -143,10 +140,10 @@
                             <input class="new-event-item" type="text" name="3" value="Film 3">
                         </div>
                         <div class="button-container-vote">
-                            <button class="interact" onclick="addChoice()" type="button">
+                            <button class="interact" id="election-add-choice" type="button">
                                 <span class="material-symbols-outlined">add_circle</span>
                             </button>
-                            <button class="interact" onclick="removeChoice()" type="button">
+                            <button class="interact" id="election-remove-choice" type="button">
                                 <span class="material-symbols-outlined">delete</span>
                             </button>
                             <button class="button" type="submit">
@@ -159,5 +156,8 @@
             </div>
         </div>
     </div>
+    <script type="module" src="index.js"> </script>
+    <script type="module" src="events.js"></script>
+    <script type="module" src="elections.js"></script>
 </body>
 </html>

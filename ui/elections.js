@@ -1,5 +1,5 @@
 import {fetchApi} from "./api.js"
-import {datetimeFormat} from "./datetimeFormat.js"
+import {datetimeFormat, getFormData} from "./helpers.js"
 
 let live = false;
 let vote_status = {}
@@ -11,7 +11,8 @@ export function handleElectionsWebsocketMessage(event) {
     if ("live" in data) {
         live = data["live"]
         setLiveIcon(live)
-        getLiveElection()
+        if (live)
+            getLiveElection()
     } 
     if ("vote_status" in data) {
         vote_status = data["vote_status"]
@@ -82,8 +83,32 @@ async function submitNewElection(e) {
     }
 }
 
+let choice_number = 3
+
+async function addChoice() {
+    let new_choice = document.createElement("input")
+    new_choice.type = "text"
+    choice_number++
+    new_choice.name = String(choice_number)
+    new_choice.classList.add("new-event-item")
+    let form = document.getElementById("new-vote-inputs")
+    form.appendChild(new_choice)
+    console.log("added")
+}
+
+async function removeChoice() {
+    let form = document.getElementById("new-vote-inputs")
+    form.removeChild(form.lastChild)
+    choice_number--
+}
+
 async function closeElection() {
     fetchApi("GET", "elections/close")
     getElections()
 }
 
+document.getElementById("get-past-elections").onclick = getPastElections
+document.getElementById("submit-new-election").onclick = submitNewElection
+document.getElementById("close-election").onclick = closeElection
+document.getElementById("election-add-choice").onclick = addChoice
+document.getElementById("election-remove-choice").onclick = removeChoice

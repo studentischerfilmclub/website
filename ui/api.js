@@ -39,7 +39,7 @@ export async function fetchApi(method, path, data) {
         return resp_data
     } else {
         console.error(resp.status, resp.statusText, resp_data.detail)
-        throw FetchError(resp_data.detail)
+        throw new FetchError(resp_data.detail)
     }
 }
 
