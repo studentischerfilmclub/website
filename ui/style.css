@@ -192,17 +192,6 @@ button {
     /*box-shadow: 5px 3px 3px red;*/
 }
 
-.tablerow {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    margin: 20px;
-}
-
-.tableitem {
-    margin: 5px
-}
-
 .popup-container{
     position: fixed; 
     left: 0px; 
@@ -302,6 +291,7 @@ button {
 
 #vote-live {
     margin-left: 30px;
+    visibility: hidden;
 }
 
 #new-vote-inputs {
@@ -312,10 +302,6 @@ button {
 .interact {
     border-width: 0;
     transform: translate(0,5px);
-}
-
-#vote-live {
-    visibility: hidden;
 }
 
 #new-vote-error, #new-event-error {
