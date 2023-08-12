@@ -302,10 +302,6 @@ button {
     }
 }
 
-#election-live {
-    visibility: hidden;
-}
-
 #new-election-inputs {
     display: flex;
     flex-direction: column;

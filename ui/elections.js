@@ -10,7 +10,7 @@ export function handleElectionsWebsocketMessage(event) {
     console.log("WS message:", data)
     if ("live" in data) {
         live = data["live"]
-        setLiveIcon(live)
+        setLive(live)
         if (live)
             getLiveElection()
     } 
@@ -31,8 +31,10 @@ export async function getElections() {
     getPastElections()
 }
 
-function setLiveIcon(live) {
-    document.getElementById("election-live").style.visibility = (live ? "visible" : "hidden")
+function setLive(live) {
+    let elem = document.getElementById("election-live")
+    elem.style.visibility = (live ? "visible" : "hidden")
+    elem.style.height = (live ? "fit-content" : 0)
 }
 
 async function getLiveElection() {
