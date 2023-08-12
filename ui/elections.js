@@ -61,7 +61,7 @@ function createSingleElectionHtml(election) {
         <div>${datetimeFormat(election.published)}</div>
         <div class="candidates">
             ${candidate_rows.join("")}
-        <div>
+        </div>
     </div>`
 }
 
