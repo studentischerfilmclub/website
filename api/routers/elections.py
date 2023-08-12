@@ -41,6 +41,21 @@ async def post_election(candidates: list[str]):
         raise HTTPException(status_code=500, 
                             detail="Couldn't insert vote into database.")
 
+@router.post("/vote")
+async def vote_in_election(vote: list[str], ip: Annotated[str, Depends(ip_address)]):
+    live_election = db.elections.find_one({"live": True})
+    if live_election is None:
+        raise HTTPException(status_code=400, detail="no live election")
+    election_id = live_election["_id"]
+    confirmation = db.ballots.update_one(
+        filter={"client_id": ip, "election_id": election_id},
+        update={"$set": {"vote": vote}},
+        upsert=True
+    )
+    if confirmation.acknowledged is not True:
+        raise HTTPException(status_code=500, detail="error updating vote")
+
+
 @router.get("/close")
 async def close_election() -> Election:
     live_elections = list(db.elections.find({"live": True}))

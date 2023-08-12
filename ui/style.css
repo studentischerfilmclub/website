@@ -354,3 +354,24 @@ button {
     background-color: #f08282;
     color: white
 }
+
+.live-election-topbar {
+    display: flex;
+    justify-content: start;
+    width: 100%;
+    align-items: center;
+}
+
+#vote-button{
+    font-family: 'Permanent Marker';
+    font-size: 20px;
+}
+
+.vote-ok {
+    color: green;
+}
+
+.vote-error {
+    color: red;
+
+}

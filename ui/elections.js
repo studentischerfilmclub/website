@@ -37,15 +37,11 @@ function setLiveIcon(live) {
 
 async function getLiveElection() {
     const candidates = await fetchApi("GET", "elections/live")
-    for (let candidate of candidates) {
-        if (!candidate in vote_status)
-            vote_status[candidate] = 0
-    }
     const candidate_rows = candidates.map((candidate) => `<button class="candidate" id="${candidate}">${candidate}</button>`)
     document.getElementById("live-election-candidates").innerHTML = candidate_rows.join("")
     for (let elem of document.getElementsByClassName("candidate")) {
         elem.onclick = () => {
-            vote_status[elem.id] = 1
+            vote_status[elem.id] = vote_status[elem.id] === 1 ? 0 : 1
             elem.classList.toggle("candidate-selected")
         }
     }
@@ -121,8 +117,35 @@ async function closeElection() {
     getElections()
 }
 
+async function submitVote() {
+    console.log(vote_status)
+    const candidates = Object.keys(vote_status)
+    const vote = candidates.filter((candidate) => vote_status[candidate] === 1)
+    try {
+        await fetchApi("POST", "elections/vote", vote)
+        let voting_status = document.getElementById("voting-status")
+        voting_status.innerHTML = "ok!"
+        voting_status.animate(
+            [{opacity: 0}, {opacity: 1}],
+            {duration: 100, iterations: 1}
+        )
+        voting_status.classList.add("vote-ok")
+        voting_status.classList.remove("vote-error")
+    } catch(err) {
+        let voting_status = document.getElementById("voting-status")
+        vote_status.innerHTML = err.msg
+        voting_status.animate(
+            [{opacity: 1}, {opacity: 0}, {opacity: 1}],
+            {duration: 500, iterations: 1}
+        )
+        voting_status.classList.remove("vote-ok")
+        voting_status.classList.add("vote-error")
+    }
+}
+
 document.getElementById("get-past-elections").onclick = getPastElections
 document.getElementById("ask-new-election").onclick = askElection
 document.getElementById("close-election").onclick = closeElection
 document.getElementById("election-add-choice").onclick = addChoice
 document.getElementById("election-remove-choice").onclick = removeChoice
+document.getElementById("vote-button").onclick = submitVote
