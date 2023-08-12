@@ -40,11 +40,6 @@ async function submitNewEvent(e) {
     }
 }
 
-async function askVote() {
-    document.getElementById("new-vote").style.visibility = "visible"
-    document.getElementById("new-vote-form").addEventListener("submit", submitNewVote)
-}
-
 let choice_number = 3
 
 document.getElementById("get-all-events").onclick = getAllEvents
