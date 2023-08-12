@@ -17,6 +17,8 @@ from fastapi import (
     WebSocketException
 )
 
+import pymongo
+
 router = APIRouter(
     prefix="/elections",
     tags=["elections"],
@@ -84,7 +86,7 @@ async def close_election() -> Election:
 
 @router.get("/past", response_model=list[Election])
 async def get_past_elections() -> list[dict]:
-    return list(db.elections.find({"live": False}))
+    return list(db.elections.find({"live": False}).sort("published", pymongo.DESCENDING))
 
 @router.get("/live")
 async def get_live_candidates() -> list[str]:
