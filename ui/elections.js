@@ -35,14 +35,22 @@ function setLiveIcon(live) {
     document.getElementById("election-live").style.visibility = (live ? "visible" : "hidden")
 }
 
-async function setLiveElection(candidates) {
-    const candidate_rows = candidates.map((candidate) => `<div class="candidate">${candidate}</div>`)
-    document.getElementById("live-election").innerHTML = candidate_rows.join("")
+async function getLiveElection() {
+    const candidates = await fetchApi("GET", "elections/live")
+    for (let candidate of candidates) {
+        if (!candidate in vote_status)
+            vote_status[candidate] = 0
+    }
+    const candidate_rows = candidates.map((candidate) => `<button class="candidate" id="${candidate}">${candidate}</button>`)
+    document.getElementById("live-election-candidates").innerHTML = candidate_rows.join("")
+    for (let elem of document.getElementsByClassName("candidate")) {
+        elem.onclick = () => {
+            vote_status[elem.id] = 1
+            elem.classList.toggle("candidate-selected")
+        }
+    }
 }
 
-async function getLiveElection() {
-    const live_election = await fetchApi("GET", "elections/live")
-}
 
 async function getPastElections() {
     try {

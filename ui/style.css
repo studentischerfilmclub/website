@@ -160,8 +160,8 @@ a {
     text-decoration: inherit;
 }
 
-a:hover, button {
-    text-decoration: underline; 
+a:hover {
+    text-decoration: underline;
     cursor: pointer;
 }
 
@@ -190,6 +190,8 @@ button {
     padding-left: 15px; 
     padding-right: 15px; 
     /*box-shadow: 5px 3px 3px red;*/
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .popup-container{
@@ -301,7 +303,6 @@ button {
 }
 
 #election-live {
-    margin-left: 30px;
     visibility: hidden;
 }
 
@@ -319,7 +320,9 @@ button {
     color: red;
 }
 
-.election {
+.elections {
+    display: flex;
+    flex-direction: column;
     padding: 1em;
 }
 
@@ -327,4 +330,27 @@ button {
     padding: 0.5em;
     display: grid;
     grid-template-columns: 1fr 1fr;
+}
+
+#live-election-candidates {
+    padding: 0.5em;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.candidate {
+    border: #f08282;
+    border-style: solid;
+    border-width: 3px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+    font-family: "REM", sans-serif;
+}
+
+.candidate-selected {
+    background-color: #f08282;
+    color: white
 }
