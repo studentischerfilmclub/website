@@ -7,7 +7,6 @@ let voters = 0;
 
 export function handleElectionsWebsocketMessage(event) {
     const data = JSON.parse(event.data)
-    console.log("WS message:", data)
     if ("live" in data) {
         live = data["live"]
         setLive(live)
@@ -123,7 +122,6 @@ async function closeElection() {
 }
 
 async function submitVote() {
-    console.log(vote_status)
     const candidates = Object.keys(vote_status)
     const vote = candidates.filter((candidate) => vote_status[candidate] === 1)
     try {
