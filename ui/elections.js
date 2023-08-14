@@ -21,7 +21,7 @@ export function handleElectionsWebsocketMessage(event) {
     }
     for (let key in data) {
         if (!key in Object({"is_live": null, "vote_status": null, "new_voter": null})) {
-            console.log("Unexpected key in websocket message:", data)
+            console.error("Unexpected key in websocket message:", data)
         }
     }
 }
