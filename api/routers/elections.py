@@ -3,6 +3,7 @@ import random
 import uuid
 import logging
 from typing import Annotated
+from collections import defaultdict
 
 from ..database_connection import db
 from ..dependencies import ip_address
@@ -61,7 +62,8 @@ async def vote_in_election(vote: list[str], ip: Annotated[str, Depends(ip_addres
 
 
 @router.get("/close")
-async def close_election() -> Election:
+async def close_election():
+    # get live elections
     live_elections = list(db.elections.find({"live": True}))
 
     if len(live_elections) < 1:
@@ -73,18 +75,22 @@ async def close_election() -> Election:
     # only one live vote
     election, = live_elections
 
-    # close election
-    del election["live"]
-    db.elections.update_one({"live": True}, {"$set": {"live": False}})
-    await websocket_manager.broadcast({"live": False})
-
     # count ballots
-    ballots = list(db.elections.find({"election_id": election["_id"]}))
+    ballots = list(db.ballots.find({"election_id": election["_id"]}))
+    candidates = election["candidates"]
     for ballot in ballots:
         for candidate in ballot["vote"]:
-            election["candidates"][candidate] += 1
+            candidates[candidate] += 1
 
-    return election
+    db.elections.update_one(
+        filter={"_id": election["_id"]},
+        update={"$set": {
+            "candidates": candidates,
+            "live": False,
+        }}
+    )
+
+    await websocket_manager.broadcast({"live": False})
 
 @router.get("/past", response_model=list[Election])
 async def get_past_elections() -> list[dict]:
