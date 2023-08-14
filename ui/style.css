@@ -375,3 +375,7 @@ button {
     color: red;
 
 }
+
+#election-live {
+    visibility: hidden;
+}
