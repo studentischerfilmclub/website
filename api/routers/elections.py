@@ -29,12 +29,13 @@ websocket_id_salt = random.getrandbits(128)
 
 @router.post("/post")
 async def post_election(election_data: ElectionData):
-    election = dict()
-    election["live"] = True
-    election["published"] = datetime.datetime.now()
-    election["candidates"] = dict([(candidate, 0) for candidate in election_data.candidates])
-    election["votes"] = election_data.votes
-
+    election = {
+        "live": True,
+        "published": datetime.datetime.now(),
+        "candidates": dict([(candidate, 0) for candidate in election_data.candidates]),
+        "votes": election_data.votes
+    }
+    
     confirmation = db.elections.insert_one(election)
 
     if confirmation.acknowledged:
