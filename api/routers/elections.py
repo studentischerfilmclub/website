@@ -52,6 +52,9 @@ async def vote_in_election(vote: list[str], ip: Annotated[str, Depends(ip_addres
     if live_election is None:
         raise HTTPException(status_code=400, detail="no live election")
     election_id = live_election["_id"]
+    votes = live_election["votes"]
+    if len(vote) != votes:
+        raise HTTPException(status_code=400, detail=f"vote for precisely {votes} candidates!")
     confirmation = db.ballots.update_one(
         filter={"client_id": ip, "election_id": election_id},
         update={"$set": {"vote": vote}},
