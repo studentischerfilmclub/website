@@ -39,8 +39,8 @@ function setLive(live) {
 
 async function getLiveElection() {
     vote_status = {}
-    const candidates = await fetchApi("GET", "elections/live")
-    const candidate_rows = candidates.map((candidate) => `<button class="candidate" id="${candidate}">${candidate}</button>`)
+    const election = await fetchApi("GET", "elections/live")
+    const candidate_rows = Object.keys(election.candidates).map((candidate) => `<button class="candidate" id="${candidate}">${candidate}</button>`)
     document.getElementById("live-election-candidates").innerHTML = candidate_rows.join("")
     for (let elem of document.getElementsByClassName("candidate")) {
         elem.onclick = () => {

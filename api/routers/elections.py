@@ -97,13 +97,13 @@ async def get_past_elections() -> list[dict]:
     return list(db.elections.find({"live": False}).sort("published", pymongo.DESCENDING))
 
 @router.get("/live")
-async def get_live_candidates() -> list[str]:
+async def get_live_candidates() -> Election:
     live_election = db.elections.find_one({"live": True})
     if live_election is None:
         raise HTTPException(status_code=400, detail="no live election")
     if "candidates" not in live_election:
         raise HTTPException(status_code=500, detail="live election malformed")
-    return live_election["candidates"].keys()
+    return live_election
 
 @router.get("/websocket_id")
 async def get_elections_websocket_id(ip: Annotated[str, Depends(ip_address)]) -> str:
