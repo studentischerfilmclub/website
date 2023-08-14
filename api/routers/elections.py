@@ -29,9 +29,6 @@ websocket_id_salt = random.getrandbits(128)
 
 @router.post("/post")
 async def post_election(election_data: ElectionData):
-    if db.elections.count_documents({"live": True}) >= 1:
-        raise HTTPException(status_code=400, detail="A live election already exists.")
-
     election = dict()
     election["live"] = True
     election["published"] = datetime.datetime.now()
