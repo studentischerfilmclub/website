@@ -1,6 +1,7 @@
 #!/bin/python
 import logging
 import traceback
+import os
 
 from .models import *
 from .routers import events, elections
@@ -8,7 +9,7 @@ from .routers import events, elections
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-DEBUG = True
+DEBUG = "DEBUG" in os.environ
 
 # logging
 FORMAT = "%(levelname)s:\t %(message)s"
