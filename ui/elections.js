@@ -139,10 +139,10 @@ async function submitVote() {
         voting_status.classList.remove("vote-error")
     } catch(err) {
         let voting_status = document.getElementById("voting-status")
-        vote_status.innerHTML = err.msg
+        voting_status.innerHTML = err.msg
         voting_status.animate(
-            [{opacity: 1}, {opacity: 0}, {opacity: 1}],
-            {duration: 500, iterations: 1}
+            [{opacity: 0}, {opacity: 1}],
+            {duration: 100, iterations: 1}
         )
         voting_status.classList.remove("vote-ok")
         voting_status.classList.add("vote-error")
