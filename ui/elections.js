@@ -119,6 +119,7 @@ async function removeChoice() {
 async function closeElection() {
     fetchApi("GET", "elections/close")
     getElections()
+    setLive(false)
 }
 
 async function submitVote() {
