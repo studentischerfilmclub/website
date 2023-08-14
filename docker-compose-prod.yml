@@ -1,91 +1,44 @@
 version: '3'
 services:
-    webserver:
-        image: nginx
-        volumes:
-           - './ui:/usr/share/nginx/html'
-        restart: unless-stopped
+    ui:
+        build:
+            context: ui
+            dockerfile: Dockerfile.prod 
+        restart: on-failure:5
         networks:
             - traefik
         labels:
             # traefik config
            - "holten.publish=j"
-           - "traefik.http.middlewares.asstr-basicauth.basicauth.users=joseph:$$2y$$05$$7r0v1BexW8Mfgo1wqzqxL.mr7eihQfdYKrEdJB0QY3TmU/6FixfqO"
-           - "traefik.http.routers.webserver.rule=Host(`asstr.vpn.holten.com`) && PathPrefix(`/archive`)"
+           #- "traefik.http.middlewares.asstr-basicauth.basicauth.users=joseph:$$2y$$05$$7r0v1BexW8Mfgo1wqzqxL.mr7eihQfdYKrEdJB0QY3TmU/6FixfqO"
+           - "traefik.http.routers.webserver.rule=Host(`studentischerfilmclub.holten.com`)"
            - "traefik.http.routers.webserver.tls=true"
-           - "traefik.http.routers.webserver.middlewares=whitelistvpn@file,asstr-basicauth@docker"
+           #- "traefik.http.routers.webserver.middlewares=whitelistvpn@file,asstr-basicauth@docker"
 
-    ui:
+    api:
         build:
-            context: ui
+            context: api
             dockerfile: Dockerfile.prod
-            args:
-                API_URL: https://asstr.vpn.holten.com/api
-        restart: unless-stopped
+        restart: on-failure:5
         networks:
             - traefik
         labels:
             # traefik config
-           - "holten.publish=vpn"
-           - "traefik.http.routers.ui.rule=Host(`asstr.vpn.holten.com`)"
-           - "traefik.http.routers.ui.tls=true"
-           - "traefik.http.routers.ui.middlewares=whitelistvpn@file,asstr-basicauth@docker"
-
-    backend:
-        build:
-            context: backend
-            dockerfile: Dockerfile.prod
-        env_file:
-            - mongodb_access.env
-        restart: unless-stopped
-        networks:
-            - traefik
-        labels:
-            # traefik config
-            - "holten.publish=vpn"
-            - "traefik.http.routers.backend.rule=Host(`asstr.vpn.holten.com`) && PathPrefix(`/api`)"
-            - "traefik.http.routers.backend.tls=true"
-            - "traefik.http.routers.backend.middlewares=strip-api-prefix@file,whitelistvpn@file,asstr-basicauth@docker"
+           - "holten.publish=j"
+           - "traefik.http.routers.webserver.rule=Host(`studentischerfilmclub.holten.com`) && PathPrefix(/api)"
+           - "traefik.http.routers.webserver.tls=true"
 
     db:
         image: mongo
         volumes:
             - db:/data/db
-            # only needed after first time creating volume db
-            - "./testdb-dump:/testdb-dump"
-        env_file:
-            - mongodb_access.env
-        restart: unless-stopped
-        networks:
-            - traefik
-
-    searchdb:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.17.9
-        environment:
-            - discovery.type=single-node
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-            - node.name=es01
-            - cluster.name=asstr-searchdb-cluster
+            # after creating db volume
+            # - "./dump:/dump"
         ports:
-            - 9200:9200
-        volumes:
-            - searchdb:/usr/share/elasticsearch/data
+            - 27017:27017
+        restart: on-failure:5
         networks:
             - traefik
-        labels:
-            - co.elastic.logs/module=elasticsearch
-            - co.elastic.metrics/module=elasticsearch
-
-    kibana:
-        image: docker.elastic.co/kibana/kibana:7.17.9
-        ports:
-            - 5601:5601
-        depends_on:
-            - searchdb
-        networks:
-            - traefik
-        environment:
-            - ELASTICSEARCH_HOSTS=http://searchdb:9200
 
 networks:
     traefik:
@@ -93,4 +46,3 @@ networks:
 
 volumes:
     db:
-    searchdb:

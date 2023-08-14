@@ -1,0 +1,6 @@
+FROM nginx
+ARG HOST=studentischerfilmclub.holten.com
+WORKDIR /usr/share/nginx/html
+
+COPY . .
+RUN sed 's%localhost%${HOST}%' api.js

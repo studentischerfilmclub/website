@@ -1,6 +1,7 @@
 const DEBUG = true
-const API_URL = "http://localhost:5000/"
-const WS_URL = "ws://localhost:5000/"
+const API_HOST = "localhost"
+const API_URL = `http://${API_HOST}/`
+const API_WS_URL = `ws://${API_HOST}/`
 
 class FetchError extends Error {
     constructor(message, status) {
@@ -44,5 +45,5 @@ export async function fetchApi(method, path, data) {
 }
 
 export function websocketApi(path, id) {
-    return new WebSocket(WS_URL + path + "/" + id)
+    return new WebSocket(API_WS_URL + path + "/" + id)
 }
