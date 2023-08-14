@@ -1,0 +1,4 @@
+- some paths should require authentication
+- elections should have names and should be presented with just month name
+- ui too small for mobile
+- text not readable enough (more contrast)
