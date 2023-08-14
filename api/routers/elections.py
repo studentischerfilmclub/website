@@ -6,7 +6,7 @@ from typing import Annotated
 
 from ..database_connection import db
 from ..dependencies import ip_address
-from ..models import Election
+from ..models import Election, ElectionData
 from ..websocket_manager import websocket_manager
 
 from fastapi import (
@@ -27,14 +27,16 @@ router = APIRouter(
 websocket_id_salt = random.getrandbits(128)
 
 @router.post("/post")
-async def post_election(candidates: list[str]):
+async def post_election(election_data: ElectionData):
     if db.elections.count_documents({"live": True}) >= 1:
         raise HTTPException(status_code=400, detail="A live election already exists.")
 
     election = dict()
     election["live"] = True
     election["published"] = datetime.datetime.now()
-    election["candidates"] = dict([(candidate, 0) for candidate in candidates])
+    election["candidates"] = dict([(candidate, 0) for candidate in election_data.candidates])
+    election["votes"] = election_data.votes
+
     confirmation = db.elections.insert_one(election)
 
     if confirmation.acknowledged:

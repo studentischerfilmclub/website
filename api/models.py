@@ -45,3 +45,7 @@ class Election(BaseModel):
                 "location": "Luxor",
             }
         }
+
+class ElectionData(BaseModel):
+    candidates: list[str]
+    votes: int

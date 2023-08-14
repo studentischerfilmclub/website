@@ -306,6 +306,10 @@ button {
     display: flex;
     flex-direction: column;
 }
+#new-election-inputs {
+    display: flex;
+    flex-direction: column;
+}
 
 .interact {
     border-width: 0;

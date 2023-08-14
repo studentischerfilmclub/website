@@ -78,13 +78,17 @@ function createElectionsHtml(elections) {
 
 async function submitNewElection(e) {
     e.preventDefault()
-    const candidates = Object.values(getFormData(e.target))
+    const new_election_form_data = getFormData(e.target)
+    const candidates = Object.entries(new_election_form_data)
+                             .filter(([key, value]) => key.startsWith("film"))
+                             .map(([key, value]) => value)
     try {
-        await fetchApi("POST", "elections/post", candidates)
+        await fetchApi("POST", "elections/post",
+            {candidates: candidates, votes: new_election_form_data.votes}
+        )
         document.getElementById("new-election").style.visibility = "hidden"
         document.getElementById("new-election-form").reset()
     } catch(err) {
-        console.error(resp.status, resp.statusText, err.msg)
         document.getElementById("new-election-error").innerHTML = err.msg
     }
 }
@@ -98,14 +102,13 @@ async function askElection() {
 let choice_number = 3
 
 async function addChoice() {
+    choice_number++
     let new_choice = document.createElement("input")
     new_choice.type = "text"
-    choice_number++
-    new_choice.name = String(choice_number)
+    new_choice.name = "film " + choice_number
     new_choice.classList.add("new-event-item")
     let form = document.getElementById("new-vote-inputs")
     form.appendChild(new_choice)
-    console.log("added")
 }
 
 async function removeChoice() {
