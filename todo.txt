@@ -4,3 +4,7 @@
 - elections should have names and should be presented with just month name
 - ui too small for mobile
 - text not readable enough (more contrast)
+- need to be able to google
+- self host google fonts to increase speed
+- voting per websocket
+- indicate top 3 votes visually
