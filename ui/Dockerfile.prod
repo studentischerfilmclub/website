@@ -1,6 +1,10 @@
 FROM nginx
-ARG HOST=studentischerfilmclub.holten.com
+ARG API=studentischerfilmclub.j.holten.com/api
 WORKDIR /usr/share/nginx/html
 
 COPY . .
-RUN sed 's%localhost%${HOST}%' api.js
+RUN chmod -R o+r .
+RUN chmod o+x assets
+
+RUN sed -i 's%API_URL = .*%API_URL = "https://studentischerfilmclub.holten.com/api/"%' api.js
+RUN sed -i 's%API_WS_URL = .*%API_WS_URL = "wss://studentischerfilmclub.holten.com/api/"%' api.js

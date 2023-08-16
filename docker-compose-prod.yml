@@ -10,10 +10,8 @@ services:
         labels:
             # traefik config
            - "holten.publish=j"
-           #- "traefik.http.middlewares.asstr-basicauth.basicauth.users=joseph:$$2y$$05$$7r0v1BexW8Mfgo1wqzqxL.mr7eihQfdYKrEdJB0QY3TmU/6FixfqO"
-           - "traefik.http.routers.webserver.rule=Host(`studentischerfilmclub.holten.com`)"
-           - "traefik.http.routers.webserver.tls=true"
-           #- "traefik.http.routers.webserver.middlewares=whitelistvpn@file,asstr-basicauth@docker"
+           - "traefik.http.routers.ui.rule=Host(`studentischerfilmclub.de`)"
+           - "traefik.http.routers.ui.tls.certResolver=letsencrypt"
 
     api:
         build:
@@ -25,8 +23,9 @@ services:
         labels:
             # traefik config
            - "holten.publish=j"
-           - "traefik.http.routers.webserver.rule=Host(`studentischerfilmclub.holten.com`) && PathPrefix(/api)"
-           - "traefik.http.routers.webserver.tls=true"
+           - "traefik.http.routers.api.rule=Host(`studentischerfilmclub.de`) && PathPrefix(`/api/`)"
+           - "traefik.http.routers.api.tls.certResolver=letsencrypt"
+           - "traefik.http.routers.api.middlewares=strip-api-prefix@file"
 
     db:
         image: mongo
