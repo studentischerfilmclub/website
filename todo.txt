@@ -1,0 +1,3 @@
+- Fix Client IP as ID
+- Admin/ editing view
+- passwort protect some routes
