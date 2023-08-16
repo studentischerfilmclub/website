@@ -1,5 +1,5 @@
 FROM nginx
-ARG API=studentischerfilmclub.j.holten.com/api
+ARG API=studentischerfilmclub.com/api
 WORKDIR /usr/share/nginx/html
 
 COPY . .
