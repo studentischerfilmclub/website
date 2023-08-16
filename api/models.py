@@ -49,3 +49,8 @@ class Election(BaseModel):
 class ElectionData(BaseModel):
     candidates: list[str]
     votes: int
+
+class User(BaseModel):
+    username: str
+    hashed_password: str
+    admin: bool

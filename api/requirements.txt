@@ -3,3 +3,4 @@ pydantic>=1.8.0
 uvicorn[standard]>=0.15.0
 pymongo
 websockets
+pyargon2

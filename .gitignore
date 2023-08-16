@@ -1,3 +1,4 @@
 *.xcf
 **/__pycache__
 *.swp
+salt.txt
