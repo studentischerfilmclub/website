@@ -21,9 +21,7 @@ try:
     with open(salt_path, "r") as file:
         password_salt = file.read()
 except FileNotFoundError as err:
-    with open(salt_path, "w") as file:
-        password_salt = secrets.token_hex(32)
-        file.write(password_salt)
+    logging.error("No salt file found! Please insert users first.")
 
 async def ip_address(request: Request) -> str:
     if request.client is None:

@@ -11,6 +11,7 @@ Options:
 '''
 
 import sys
+import secrets
 
 from pyargon2 import hash as secure_hash
 import pwinput
@@ -23,12 +24,12 @@ salt_path = arguments.get("--salt-path", "./salt.txt")
 
 try:
     with open(salt_path, "r") as file:
-        salt = file.read()
+        password_salt = file.read()
 except FileNotFoundError as err:
-    print(f"Error: could not find {salt_path} file in current working directory!", file=sys.stderr)
-    print("Either change into correct directory or provide salt path as argument.", file=sys.stderr)
-    print(__doc__, file=sys.stderr)
-    raise err
+    print("Creating 'salt.txt' in current working directory. Move this into the 'api' folder.")
+    with open(salt_path, "w+") as file:
+        password_salt = secrets.token_hex(32)
+        file.write(password_salt)
     
 db_client = MongoClient(arguments.get("--db", "localhost"))
 db = db_client.filmclub
@@ -37,8 +38,8 @@ if arguments["insert_users"]:
     while input("Insert new user? [Y/n] ").lower() != "n":
         username = input("username: ")
         while True:
-                password = secure_hash(pwinput.pwinput(prompt="password: "), salt)
-                if secure_hash(pwinput.pwinput(prompt="repeat password: "), salt) == password:
+                password = secure_hash(pwinput.pwinput(prompt="password: "), password_salt)
+                if secure_hash(pwinput.pwinput(prompt="repeat password: "), password_salt) == password:
                     break
                 else:
                     print("Error: passwords did not match!")
