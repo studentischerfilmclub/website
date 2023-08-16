@@ -1,9 +1,11 @@
 import logging
+from typing import Annotated
 
+from ..dependencies import is_member
 from ..models import *
 from ..database_connection import db
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from fastapi.encoders import jsonable_encoder
 
 import pymongo
@@ -14,7 +16,7 @@ router = APIRouter(
 )
 
 @router.post("/post")
-async def write_event(event_data: EventData):
+async def write_event(event_data: EventData, user: Annotated[User, Depends(is_member)]):
     event = jsonable_encoder(event_data)
     event["datetime"] = datetime.datetime.fromisoformat(event["date"] + "T" + event["time"])
     del event["date"]

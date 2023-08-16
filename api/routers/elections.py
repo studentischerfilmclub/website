@@ -6,8 +6,8 @@ from typing import Annotated
 from collections import defaultdict
 
 from ..database_connection import db
-from ..dependencies import ip_address
-from ..models import Election, ElectionData
+from ..dependencies import ip_address, is_member
+from ..models import Election, ElectionData, User
 from ..websocket_manager import websocket_manager
 
 from fastapi import (
@@ -28,7 +28,7 @@ router = APIRouter(
 websocket_id_salt = random.getrandbits(128)
 
 @router.post("/post")
-async def post_election(election_data: ElectionData):
+async def post_election(election_data: ElectionData, user: Annotated[User, Depends(is_member)]):
     election = {
         "live": True,
         "published": datetime.datetime.now(),
@@ -63,7 +63,7 @@ async def vote_in_election(vote: list[str], ip: Annotated[str, Depends(ip_addres
 
 
 @router.get("/close")
-async def close_election():
+async def close_election(user: Annotated[User, Depends(is_member)]):
     # get live elections
     live_elections = list(db.elections.find({"live": True}))
 
