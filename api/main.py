@@ -1,6 +1,5 @@
 #!/bin/python
 import logging
-import traceback
 import os
 
 from .models import *
