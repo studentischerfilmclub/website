@@ -94,13 +94,16 @@ async def close_election(user: Annotated[User, Depends(is_member)]):
     await websocket_manager.broadcast({"live": False})
 
 @router.get("/past", response_model=list[Election])
-async def get_past_elections() -> list[dict]:
+async def get_past_elections() -> list[list]:
     # take second element for sort
     def takeSecond(elem):
         return elem[1]
-    elections = list(db.elections.find({"live": False}).sort("published", pymongo.DESCENDING))
-    for i in elections:
-        i.candidates.sort(key=takeSecond)
+    elections = list()
+    election_dict = db.elections.find({"live": False}).sort("published", pymongo.DESCENDING)
+    for i in election_dict:
+        elections.append([[j, i["candidates"][j]] for j in i["candidates"]])
+        elections[-1].sort(key=takeSecond, reverse=True)
+    logging.info(elections)
     return elections
 
 @router.get("/live")

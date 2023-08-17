@@ -61,7 +61,10 @@ async function getPastElections() {
 }
 
 function createSingleElectionHtml(election) {
-    const candidate_rows = Object.entries(election.candidates).map((candidate_and_vote) => {
+    const candidate_rows = Object.entries(election.candidates).map((candidate_and_vote, index) => {
+        if (index < 3) {
+            return `<div style="font-color: red">${candidate_and_vote[0]}</div><div style="font-color: red">${candidate_and_vote[1]}</div>`
+        }
         return `<div>${candidate_and_vote[0]}</div><div>${candidate_and_vote[1]}</div>`
     })
     return `<div class="election">
