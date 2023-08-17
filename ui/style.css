@@ -236,9 +236,6 @@ button {
 
 .button {
     border: var(--text-color);
-    border-radius: 5px;
-    border-width: 3px;
-    border-style: none;
     padding-left: 15px; 
     padding-right: 15px; 
     /*box-shadow: 5px 3px 3px red;*/
