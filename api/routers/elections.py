@@ -95,7 +95,13 @@ async def close_election(user: Annotated[User, Depends(is_member)]):
 
 @router.get("/past", response_model=list[Election])
 async def get_past_elections() -> list[dict]:
-    return list(db.elections.find({"live": False}).sort("published", pymongo.DESCENDING))
+    # take second element for sort
+    def takeSecond(elem):
+        return elem[1]
+    elections = list(db.elections.find({"live": False}).sort("published", pymongo.DESCENDING))
+    for i in elections:
+        i.candidates.sort(key=takeSecond)
+    return elections
 
 @router.get("/live")
 async def get_live_candidates() -> Election:
