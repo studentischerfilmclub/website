@@ -25,7 +25,7 @@ async function fillEvents(events) {
             link = event.link
 
         return `<a class="event" href="${link}" target="_blank">
-            <div><span class="date">${datetimeFormat(event.datetime)}</span> <span class="location">@${event.location}</span></div>
+            <div><span class="date">${datetimeFormat(event.datetime)}</span> @<span class="location">${event.location}</span></div>
             <div>${event_text}</div>
         </a>`
     })
