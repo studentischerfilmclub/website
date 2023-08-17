@@ -108,12 +108,12 @@ async function addChoice() {
     new_choice.type = "text"
     new_choice.name = "film " + choice_number
     new_choice.classList.add("new-event-item")
-    let form = document.getElementById("new-vote-inputs")
+    let form = document.getElementById("new-election-inputs")
     form.appendChild(new_choice)
 }
 
 async function removeChoice() {
-    let form = document.getElementById("new-vote-inputs")
+    let form = document.getElementById("new-election-inputs")
     form.removeChild(form.lastChild)
     choice_number--
 }
