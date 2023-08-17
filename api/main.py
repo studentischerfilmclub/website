@@ -18,13 +18,14 @@ logging.basicConfig(format=FORMAT, level=logging.INFO)
 app = FastAPI(debug=DEBUG)
 
 # middle ware
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=["http://localhost:3000"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+if DEBUG:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_credentials=True,
+        allow_origins=["http://localhost:3000"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 # routers
 app.include_router(events.router)
