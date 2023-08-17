@@ -27,6 +27,7 @@
 
 .filmtitle {
     font-style: italic;
+    width: fit-content;
 }
 
 .vote-number {
@@ -380,7 +381,7 @@ button {
 
 .candidates {
     padding-top: 0;
-    padding-left: 3ch;
+    padding-left: 1ch;
     display: grid;
     grid-template-columns: 2ch 1fr;
     gap: 0 2ch;
@@ -390,15 +391,14 @@ button {
     width: fit-content;
     display: flex;
     flex-direction: column;
-    padding-left: 1ch;
-    padding-right: 2ch;
+    padding-left: 4ch;
 }
 
 .candidate {
     padding-left: 1ch;
 }
 
-.candidate-selected {
+.dark-background {
     background-color: var(--background-dark);
 }
 

@@ -34,6 +34,7 @@ class Election(BaseModel):
     id: ObjectId = Field(alias="_id")
     published: datetime.datetime
     candidates: dict[str, int]
+    votes: int
 
     class Config:
         populate_by_name = True

@@ -38,12 +38,12 @@ function setLive(live) {
 async function getLiveElection() {
     vote_status = {}
     const election = await fetchApi("GET", "elections/live")
-    const candidate_rows = Object.keys(election.candidates).map((candidate) => `<button class="candidate button" id="${candidate}">${candidate}</button>`)
+    const candidate_rows = Object.keys(election.candidates).map((candidate) => `<button class="candidate button filmtitle" id="${candidate}">${candidate}</button>`)
     document.getElementById("live-election-candidates").innerHTML = candidate_rows.join("")
     for (let elem of document.getElementsByClassName("candidate")) {
         elem.onclick = () => {
             vote_status[elem.id] = vote_status[elem.id] === 1 ? 0 : 1
-            elem.classList.toggle("candidate-selected")
+            elem.classList.toggle("dark-background")
         }
     }
 }
@@ -64,8 +64,8 @@ function createSingleElectionHtml(election) {
     const candidate_rows = candidates_and_votes
         .sort((a, b) => b[1] - a[1])
         .map(([candidate, vote], index) => {
-            if (index < 3) {
-                return `<div class="vote-number">${vote}</div><div class="filmtitle">${candidate}</div>`
+            if (index < election.votes) {
+                return `<div class="vote-number">${vote}</div><div class="filmtitle dark-background">${candidate}</div>`
             }
             return `<div class="vote-number">${vote}</div><div class="filmtitle">${candidate}</div>`
         })
