@@ -16,6 +16,7 @@ class Event(BaseModel):
     name: str
     datetime: datetime.datetime
     location: str
+    type: str
 
     class Config:
         populate_by_name = True

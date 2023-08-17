@@ -1,5 +1,36 @@
+:root {
+    --text-color: #1A1C1A;
+    --background-light: #fff6e5;
+    --background-dark: #E8D8C5;
+    --text-normal: "Roboto Mono";
+    --text-fancy: "Vina Sans";
+    --title-color: #756531;
+}
+
+/*
+:root {
+    --text-normal: "Inconsolata";
+    --text-fancy: "Vina Sans";
+}
+
+:root {
+    --text-color: #1A1C1A;
+    --background-light: #ffd9d9;
+    --background-dark: #e6c3c3;
+    --title-color: #706634;
+}
+*/
+
 ::-webkit-scrollbar {
     display: none;
+}
+
+.filmtitle {
+    font-style: italic;
+}
+
+.location {
+    text-decoration: underline;
 }
 
 .material-symbols-outlined {
@@ -26,40 +57,65 @@ body {
     width: 100%;
     min-height: 100vh;
 
-    background-color: #6fd1da;
-    color: #f08282;
+    background-color: var(--background-light);
+    color: var(--text-color);
 
-    font-weight: bold;
+    /*font-weight: bold;*/
     font-size: 30px;
-    font-family: "REM", sans-serif;
+    font-family: var(--text-normal);
 }
 
 .content-block {
-    padding: 70px;
+    padding: 1.5em;
     width: 100%;
     box-sizing: border-box;
     max-width: 40em;
-}
-
-.subtitle-socials {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
 }
 
 .subtitle {
-    font-size: 40px;
-    min-width: fit-content;
-    font-family: "Permanent Marker", sansubtitle-socialss-serif;
-    margin-right: 80px;
+    font-size: 48px;
+    font-family: var(--text-fancy);
+    color: var(--title-color);
+    position: relative;
+    left: 10%;
+    width: 90%;
+    text-transform: uppercase;
+}
+
+.subtitle-second-line {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.wir {
+    flex-shrink: 0;
+    flex-grow: 1;
+}
+
+.melde {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    font-size: 0.9em;
+}
+
+.melde > a > img {
+    height: 0.9em;
+    position: relative;
+    top: 7%;
+}
+
+.heading {
+    color: var(--title-color);
+    font-family: var(--text-fancy);
+    text-transform: uppercase;
+    font-size: 1.2em;
 }
 
 .title {
-    padding-right: 70px;
-    padding-left: 70px;
-    width: 100%;
-    box-sizing: border-box;
-    max-width: 40em;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 .title img {
@@ -67,7 +123,7 @@ body {
 }
 
 .events-container {
-    margin: 1em;
+    padding: 1em;
 }
 
 #plusbutton{
@@ -79,7 +135,7 @@ body {
     align-items: center;
     justify-content: center;
     width: fit-content;
-    border: #f08282;
+    border: var(--text-color);
     border-style: solid;
     border-radius: 5px;
     border-width: 2px;
@@ -87,7 +143,7 @@ body {
 }
 
 #plus{
-    border: #f08282;
+    border: var(--text-color);
     border-style: solid;
     border-radius: 1.3em;
     width: 1.3em;
@@ -116,11 +172,12 @@ body {
 .topbar-item {
     margin-top: 1em;
     margin-right: 2em;
-    font-size: 25px;
+    font-size: 1em;
+    text-decoration: underline;
 }
 
 .events {
-    background-color: #7f91ad;
+    background-color: var(--background-dark);
 }
 
 .socials {
@@ -129,24 +186,24 @@ body {
     justify-content: end;
     align-items: end;
     box-sizing: border-box;
+    color: var(--title-color);
 }
 
 
 .socials img {
-    height: 30px;
+    height: 1.5em;
     stroke: rgb(240, 130, 130);
 }
 
 .socials-text {
-    font-size: 20px;
-    padding-bottom: 8px;
+    font-size: 1em;
     padding-right: 20px;
-    font-family: "Permanent Marker", sansubtitle-socialss-serif;
+    font-family: var(--text-fancy);
 }
 
 .socials img svg {
     fill:none;
-    stroke:#f08282;
+    stroke: var(--text-color);
     stroke-linecap:round;
     stroke-linejoin:round;
 }
@@ -160,15 +217,9 @@ a {
     text-decoration: inherit;
 }
 
-a:hover {
-    text-decoration: underline;
-    cursor: pointer;
-}
-
 .alle-container {
     display: flex;
     justify-content: end;
-    font-size: 20px;
     font-family: 'Permanent Marker';
     width: 100%;
 }
@@ -181,17 +232,17 @@ button {
 }
 
 .button {
-    border: #f08282;
-    border-radius: 20px;
+    border: var(--text-color);
+    border-radius: 5px;
     border-width: 3px;
-    border-style: solid;
-    padding-top: 3px; 
-    padding-bottom: 3px; 
+    border-style: none;
     padding-left: 15px; 
     padding-right: 15px; 
     /*box-shadow: 5px 3px 3px red;*/
-    text-decoration: underline;
     cursor: pointer;
+    font-size: 1em;
+    font-family: var(--text-normal);
+    text-decoration: underline;
 }
 
 .popup-container{
@@ -240,24 +291,12 @@ button {
 }
 
 .tablerow {
-    display: flex;
-    flex-wrap: wrap;
     align-items: baseline;
-    margin: 20px;
-}
-
-.tableitem {
-    margin: 5px
-}
-
-.button {
-    margin: 10px
 }
 
 .ok-container {
     display: flex;
     justify-content: end;
-    font-size: 20px;
     font-family: 'Permanent Marker', sans-serif;
     width: 100%;
 }
@@ -265,7 +304,6 @@ button {
 .button-container-election {
     display: flex;
     justify-content: end;
-    font-size: 20px;
     font-family: 'Permanent Marker', sans-serif;
     width: 100%;
     align-items: baseline;
@@ -276,7 +314,7 @@ button {
     width: 20px;
     border-radius: 50%;
     display: inline-block;
-    background-color: #f08282;
+    background-color: var(--text-color);
     margin-left: 20px;
 }
 
@@ -285,7 +323,7 @@ button {
     height: 20px;
     border-radius: 50%;
     box-shadow: 0px 0px 1px 1px #0000001a;
-    background-color: #f08282;
+    background-color: var(--text-color);
     display: inline-block;
 }
   
@@ -341,7 +379,7 @@ button {
 }
 
 .candidate {
-    border: #f08282;
+    border: var(--text-color);
     border-style: solid;
     border-width: 3px;
     background-color: white;
@@ -351,7 +389,7 @@ button {
 }
 
 .candidate-selected {
-    background-color: #f08282;
+    background-color: var(--text-color);
     color: white
 }
 
@@ -364,7 +402,6 @@ button {
 
 #vote-button{
     font-family: 'Permanent Marker';
-    font-size: 20px;
 }
 
 .vote-ok {

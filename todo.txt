@@ -7,3 +7,4 @@
 - self host google fonts to increase speed
 - voting per websocket
 - indicate top 3 votes visually
+- sanitize input

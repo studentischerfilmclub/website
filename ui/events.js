@@ -1,18 +1,40 @@
 import {fetchApi} from "./api.js"
 import {datetimeFormat, getFormData} from "./helpers.js"
 
+const default_links = {
+    karlstorkino: "https://karlstorkino.de/reihe/studentischer-filmclub-heidelberg",
+    luxor: "https://tickets.luxor-kino.de/Luxor-Heidelberg",
+}
+
 async function fillEvents(events) {
     const event_rows = events.map((event) => {
-        return `<div class="tablerow">
-        <div class="tableitem monospaced">${datetimeFormat(event.datetime)}</div>
-        <div class="tableitem">${event.name} @${event.location}</div>
-        </div>`
+        let event_text;
+        if (event.type === "Kino")
+            event_text = `Wir sehen: <span class="filmtitle">${event.name}</span>`
+        else if (event.type === "Filmclub")
+            event_text = `Der Filmclub stellt vor: <span class="filmtitle">${event.name}</span>`
+        else 
+            event_text = event.name
+        
+        let link = ""
+
+        const location_lower = event.location.toLowerCase()
+        if (location_lower in default_links)
+            link = default_links[location_lower]
+        if ("link" in event && event.link !== "")
+            link = event.link
+
+        return `<a class="event" href="${link}" target="_blank">
+            <div><span class="date">${datetimeFormat(event.datetime)}</span> <span class="location">@${event.location}</span></div>
+            <div>${event_text}</div>
+        </a>`
     })
     document.getElementById("events-inject").innerHTML = event_rows.join("")
 }
 
 export async function getNextEvents() {
     const events = await fetchApi("GET", "events/next")
+    console.log(events)
     fillEvents(events.slice(0,5))
 }
 
