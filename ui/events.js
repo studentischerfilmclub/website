@@ -34,7 +34,6 @@ async function fillEvents(events) {
 
 export async function getNextEvents() {
     const events = await fetchApi("GET", "events/next")
-    console.log(events)
     fillEvents(events.slice(0,5))
 }
 

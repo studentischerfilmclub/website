@@ -29,6 +29,12 @@
     font-style: italic;
 }
 
+.vote-number {
+    width: 2ch;
+    display: flex;
+    justify-content: end;
+}
+
 .location {
     text-decoration: underline;
 }
@@ -120,10 +126,6 @@ body {
 
 .title img {
     width: 100%;
-}
-
-.events-container {
-    padding: 1em;
 }
 
 #plusbutton{
@@ -229,6 +231,7 @@ button {
     background-color: inherit;
     font-size: inherit;
     font-family: inherit;
+    border-style: none;
 }
 
 .button {
@@ -318,12 +321,18 @@ button {
     margin-left: 20px;
 }
 
+.live-dot-wrapper {
+    width: 2ch;
+    display: flex;
+    justify-content: center;
+}
+
 .live-dot {
     width: 20px;
     height: 20px;
     border-radius: 50%;
     box-shadow: 0px 0px 1px 1px #0000001a;
-    background-color: var(--text-color);
+    background-color: red;
     display: inline-block;
 }
   
@@ -358,39 +367,42 @@ button {
     color: red;
 }
 
-.elections {
+.container {
     display: flex;
     flex-direction: column;
-    padding: 1em;
+    padding: 0.5em 0;
+    gap: 0.5em;
+}
+
+#past-elections {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
 }
 
 .candidates {
-    padding: 0.5em;
+    padding-top: 0;
+    padding-left: 3ch;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2ch 1fr;
+    gap: 0 2ch;
 }
 
 #live-election-candidates {
-    padding: 0.5em;
     width: fit-content;
     display: flex;
     flex-direction: column;
-    gap: 10px
+    padding-left: 1ch;
+    padding-right: 2ch;
 }
 
 .candidate {
-    border: var(--text-color);
-    border-style: solid;
-    border-width: 3px;
-    background-color: white;
-    border-radius: 5px;
-    padding: 5px;
-    font-family: "REM", sans-serif;
+    padding-left: 1ch;
 }
 
 .candidate-selected {
-    background-color: var(--text-color);
-    color: white
+    background-color: var(--background-dark);
 }
 
 .live-election-topbar {
@@ -400,19 +412,14 @@ button {
     align-items: center;
 }
 
-#vote-button{
-    font-family: 'Permanent Marker';
-}
-
 .vote-ok {
     color: green;
 }
 
 .vote-error {
     color: red;
-
 }
 
-#election-live {
-    visibility: hidden;
+#voting-status {
+    padding-left: 1em;
 }

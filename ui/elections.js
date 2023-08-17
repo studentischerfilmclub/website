@@ -32,15 +32,13 @@ export async function getElections() {
 
 function setLive(live) {
     document.getElementById("voting-status").innerHTML = ""
-    let elem = document.getElementById("election-live")
-    elem.style.visibility = (live ? "visible" : "hidden")
-    elem.style.height = (live ? "fit-content" : 0)
+    document.getElementById("election-live").style.display = (live ? "block" : "none")
 }
 
 async function getLiveElection() {
     vote_status = {}
     const election = await fetchApi("GET", "elections/live")
-    const candidate_rows = Object.keys(election.candidates).map((candidate) => `<button class="candidate" id="${candidate}">${candidate}</button>`)
+    const candidate_rows = Object.keys(election.candidates).map((candidate) => `<button class="candidate button" id="${candidate}">${candidate}</button>`)
     document.getElementById("live-election-candidates").innerHTML = candidate_rows.join("")
     for (let elem of document.getElementsByClassName("candidate")) {
         elem.onclick = () => {
@@ -54,19 +52,23 @@ async function getLiveElection() {
 async function getPastElections() {
     try {
         const elections = await fetchApi("GET", "elections/past")
-        document.getElementById("last-elections").innerHTML = createElectionsHtml(elections)
+        document.getElementById("past-elections").innerHTML = createElectionsHtml(elections)
     } catch(err) {
         console.error(err)
     }
 }
 
 function createSingleElectionHtml(election) {
-    const candidate_rows = Object.entries(election.candidates).map((candidate_and_vote, index) => {
-        if (index < 3) {
-            return `<div style="font-color: red">${candidate_and_vote[0]}</div><div style="font-color: red">${candidate_and_vote[1]}</div>`
-        }
-        return `<div>${candidate_and_vote[0]}</div><div>${candidate_and_vote[1]}</div>`
-    })
+    const candidates_and_votes = Object
+        .entries(election.candidates)
+    const candidate_rows = candidates_and_votes
+        .sort((a, b) => b[1] - a[1])
+        .map(([candidate, vote], index) => {
+            if (index < 3) {
+                return `<div class="vote-number">${vote}</div><div class="filmtitle">${candidate}</div>`
+            }
+            return `<div class="vote-number">${vote}</div><div class="filmtitle">${candidate}</div>`
+        })
     return `<div class="election">
         <div>${datetimeFormat(election.published)}</div>
         <div class="candidates">

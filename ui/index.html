@@ -64,11 +64,7 @@
                 NAEchste Events
             </div>
 
-            <div class="events-container">
-                <table class="calculator">
-                    <div id="events-inject"></div>
-                </table>
-            </div>
+            <div id="events-inject" class="container"></div>
 
             <div class="alle-container">
                 <button class="button" id="get-all-events">
@@ -111,21 +107,25 @@
 
     <div class="content-block" id="abstimmungen">
         <div class="heading"> Abstimmungen </div>
-        <div class="elections">
+        <div id="elections" class="container">
             <div class="election" id="election-live">
                 <div class="live-election-topbar">
                     <div>
-                        <span class="live-dot pulse"></span>
-                        Live
+                        <div class="live-dot-wrapper">
+                            <span class="live-dot pulse"></span>
+                        </div>
                     </div>
-                    <button id="vote-button" class="button">vote</button>
+                    Live
                     <div id="voting-status"></div>
                 </div>
                 <div id="live-election-candidates"></div>
+                <div class="alle-container">
+                    <button id="vote-button" class="button">vote</button>
+                </div>
             </div>
-            <div id="last-elections"></div>
+            <div id="past-elections"></div>
         </div>
-       <div class="alle-container">
+        <div class="alle-container">
             <button class="button" id="get-past-elections">
                 alle
             </button>
