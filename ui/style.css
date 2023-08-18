@@ -30,9 +30,7 @@
 }
 
 .vote-number {
-    width: 2ch;
-    display: flex;
-    justify-content: end;
+    text-align: end;
 }
 
 .location {
@@ -222,7 +220,6 @@ a {
 .alle-container {
     display: flex;
     justify-content: end;
-    font-family: 'Permanent Marker';
     width: 100%;
 }
 
