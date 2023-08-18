@@ -65,7 +65,7 @@ function createSingleElectionHtml(election) {
         .sort((a, b) => b[1] - a[1])
         .map(([candidate, vote], index) => {
             if (index < election.votes) {
-                return `<div class="vote-number">${vote}</div><div class="filmtitle dark-background">${candidate}</div>`
+                return `<div class="vote-number">${vote}</div><div class="filmtitle"><span class="dark-background">${candidate}</span></div>`
             }
             return `<div class="vote-number">${vote}</div><div class="filmtitle">${candidate}</div>`
         })
