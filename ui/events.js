@@ -4,6 +4,9 @@ import {datetimeFormat, getFormData} from "./helpers.js"
 const default_links = {
     karlstorkino: "https://karlstorkino.de/reihe/studentischer-filmclub-heidelberg",
     luxor: "https://tickets.luxor-kino.de/Luxor-Heidelberg",
+    "casa del cafe": "https://www.casa-del-caffe.de/",
+    "casa del caffe": "https://www.casa-del-caffe.de/",
+    "casa": "https://www.casa-del-caffe.de/",
 }
 
 async function fillEvents(events) {
