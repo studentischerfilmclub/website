@@ -126,6 +126,17 @@ body {
     width: 100%;
 }
 
+.text {
+    flex-direction: column;
+    display: flex;
+    gap: 1em;
+}
+
+.election-date {
+    color: grey;
+    font-size: 0.8em;
+}
+
 #plusbutton{
     padding-left: 2em;
     padding-right: 2em;

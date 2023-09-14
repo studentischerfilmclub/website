@@ -1,5 +1,5 @@
 import {fetchApi} from "./api.js"
-import {datetimeFormat, getFormData} from "./helpers.js"
+import {dateFormat, getFormData} from "./helpers.js"
 
 let live = false;
 let vote_status = {}
@@ -69,8 +69,9 @@ function createSingleElectionHtml(election) {
             }
             return `<div class="vote-number">${vote}</div><div class="filmtitle">${candidate}</div>`
         })
+    const election_title = "Für November"
     return `<div class="election">
-        <div>${datetimeFormat(election.published)}</div>
+        <div><span>${election.title}</span> <span class="election-date">durchgeführt am ${dateFormat(election.published)}</span></div>
         <div class="candidates">
             ${candidate_rows.join("")}
         </div>
