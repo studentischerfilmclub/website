@@ -133,7 +133,8 @@ async function submitVote() {
     const candidates = Object.keys(vote_status)
     const vote = candidates.filter((candidate) => vote_status[candidate] === 1)
     try {
-        await fetchApi("POST", "elections/vote", vote)
+        const websocket_id = localStorage.getItem("websocket_id")
+        await fetchApi("POST", `elections/vote/${websocket_id}`, vote)
         let voting_status = document.getElementById("voting-status")
         voting_status.innerHTML = "ok!"
         voting_status.animate(

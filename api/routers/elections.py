@@ -44,8 +44,8 @@ async def post_election(election_data: ElectionData, user: Annotated[User, Depen
         raise HTTPException(status_code=500, 
                             detail="Couldn't insert vote into database.")
 
-@router.post("/vote")
-async def vote_in_election(vote: list[str], ip: Annotated[str, Depends(ip_address)]):
+@router.post("/vote/{client_id}")
+async def vote_in_election(vote: list[str], client_id: str):
     live_election = db.elections.find_one({"live": True})
     if live_election is None:
         raise HTTPException(status_code=400, detail="no live election")
@@ -54,7 +54,7 @@ async def vote_in_election(vote: list[str], ip: Annotated[str, Depends(ip_addres
     if len(vote) != votes:
         raise HTTPException(status_code=400, detail=f"vote for precisely {votes} candidate(s)!")
     confirmation = db.ballots.update_one(
-        filter={"client_id": ip, "election_id": election_id},
+        filter={"client_id": client_id, "election_id": election_id},
         update={"$set": {"vote": vote}},
         upsert=True
     )
