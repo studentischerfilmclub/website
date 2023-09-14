@@ -40,6 +40,7 @@ async function getLiveElection() {
     const election = await fetchApi("GET", "elections/live")
     const candidate_rows = Object.keys(election.candidates).map((candidate) => `<button class="candidate button filmtitle" id="${candidate}">${candidate}</button>`)
     document.getElementById("live-election-candidates").innerHTML = candidate_rows.join("")
+    document.getElementById("live-election-title").innerHTML = election.title
     for (let elem of document.getElementsByClassName("candidate")) {
         elem.onclick = () => {
             vote_status[elem.id] = vote_status[elem.id] === 1 ? 0 : 1
@@ -69,9 +70,8 @@ function createSingleElectionHtml(election) {
             }
             return `<div class="vote-number">${vote}</div><div class="filmtitle">${candidate}</div>`
         })
-    const election_title = "Für November"
     return `<div class="election">
-        <div><span>${election_title}</span> <span class="election-date">durchgeführt am ${dateFormat(election.published)}</span></div>
+        <div><span>${election.title}</span> <span class="election-date">durchgeführt am ${dateFormat(election.published)}</span></div>
         <div class="candidates">
             ${candidate_rows.join("")}
         </div>
@@ -89,9 +89,10 @@ async function submitNewElection(e) {
     const candidates = Object.entries(new_election_form_data)
                              .filter(([key, value]) => key.startsWith("film"))
                              .map(([key, value]) => value)
+    const title = new_election_form_data["title"]
     try {
         await fetchApi("POST", "elections/post",
-            {candidates: candidates, votes: new_election_form_data.votes}
+            {candidates: candidates, votes: new_election_form_data.votes, title: title}
         )
         document.getElementById("new-election").style.visibility = "hidden"
         document.getElementById("new-election-form").reset()

@@ -33,7 +33,8 @@ async def post_election(election_data: ElectionData, user: Annotated[User, Depen
         "live": True,
         "published": datetime.datetime.now(),
         "candidates": dict([(candidate, 0) for candidate in election_data.candidates]),
-        "votes": election_data.votes
+        "votes": election_data.votes,
+        "title": election_data.title,
     }
     
     confirmation = db.elections.insert_one(election)

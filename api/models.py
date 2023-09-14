@@ -36,6 +36,7 @@ class Election(BaseModel):
     published: datetime.datetime
     candidates: dict[str, int]
     votes: int
+    title: str
 
     class Config:
         populate_by_name = True
@@ -52,6 +53,7 @@ class Election(BaseModel):
 class ElectionData(BaseModel):
     candidates: list[str]
     votes: int
+    title: str
 
 class User(BaseModel):
     username: str
