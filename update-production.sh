@@ -1,2 +1,1 @@
-git pull
-dcprod build && dcprod up -d
+git pull && dcprod build && dcprod up -d
