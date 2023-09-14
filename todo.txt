@@ -1,4 +1,4 @@
-- Fix Client IP as ID
+- Fix Client IP as ID -> partial, now random code in localStorage, maybe cookie?
 - Admin/ editing view
 - elections should have names and should be presented with just month name
 - ui too small for mobile
@@ -8,3 +8,7 @@
 - voting per websocket
 - indicate top 3 votes visually
 - sanitize input
+- selection type only of enum
+- update text -> better first text
+- local hosting should be over current wifi, s.t. testing from phone is easier
+- type filmabend
