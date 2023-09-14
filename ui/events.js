@@ -13,6 +13,8 @@ async function fillEvents(events) {
             event_text = `Wir sehen: <span class="filmtitle">${event.name}</span>`
         else if (event.type === "Filmclub")
             event_text = `Der Filmclub stellt vor: <span class="filmtitle">${event.name}</span>`
+        else if (event.type === "Treffen")
+            event_text = `Wir treffen uns zum labern/orgern! <span class="filmtitle">${event.name}</span>`
         else 
             event_text = event.name
         
@@ -52,6 +54,7 @@ async function askEvent() {
 async function submitNewEvent(e) {
     e.preventDefault();
     try {
+        console.log(getFormData(e.target))
         await fetchApi("POST", "events/post", getFormData(e.target))
         document.getElementById("new-event").style.visibility = "hidden"
         document.getElementById("new-event-form").reset()

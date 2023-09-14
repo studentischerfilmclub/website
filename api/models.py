@@ -5,9 +5,10 @@ from bson import ObjectId
 from typing import Optional, Dict, Any, List
 
 class EventData(BaseModel):
-    name: str
     date: datetime.date
     time: datetime.time
+    name: str
+    type: str
     location: str
     link: Optional[str]
 
