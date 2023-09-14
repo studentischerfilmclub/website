@@ -53,7 +53,7 @@ async def get_all_events() -> list[dict]:
 @router.get("/next", response_model=list[Event])
 async def get_next_events() -> list[dict]:
     return list(
-        db.events.find({})#"datetime": {"$gte": datetime.datetime.now()}})
-        #.sort("datetime", pymongo.ASCENDING)
+        db.events.find({"datetime": {"$gte": datetime.datetime.now()}})
+        .sort("datetime", pymongo.ASCENDING)
     )
 
