@@ -71,7 +71,7 @@ function createSingleElectionHtml(election) {
         })
     const election_title = "Für November"
     return `<div class="election">
-        <div><span>${election.title}</span> <span class="election-date">durchgeführt am ${dateFormat(election.published)}</span></div>
+        <div><span>${election_title}</span> <span class="election-date">durchgeführt am ${dateFormat(election.published)}</span></div>
         <div class="candidates">
             ${candidate_rows.join("")}
         </div>
