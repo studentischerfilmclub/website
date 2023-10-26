@@ -427,3 +427,8 @@ button {
 #voting-status {
     padding-left: 1em;
 }
+
+.sturalogo {
+    display: flex;
+    justify-content: end;
+}
