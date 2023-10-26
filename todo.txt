@@ -1,4 +1,3 @@
-- Fix Client IP as ID -> partial, now random code in localStorage, maybe cookie?
 - Admin/ editing view
 - elections should have names and should be presented with just month name
 - ui too small for mobile
