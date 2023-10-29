@@ -18,9 +18,14 @@ router = APIRouter(
 
 @router.post("/add_person")
 async def write_event(data: PersonData, user: Annotated[User, Depends(is_member)]):
-    result = db.events.update_one({"_id": ObjectId(data.event_id)}, {"$push": {"people": data.name}})
-    if result.matched_count == 0:
+    event = db.events.find_one({"_id": ObjectId(data.event_id)})
+    if event is None:
         raise HTTPException(status_code=500, detail=f"Invalid event_id {data.event_id}")
+
+    if event.people != None:
+        result = db.events.update_one({"_id": ObjectId(data.event_id)}, {"$push": {"people": data.name}})
+    else:
+        result = db.events.update_one({"_id": ObjectId(data.event_id)}, {"$set": {"people": [data.name]}})
 
 @router.post("/post")
 async def write_event(event_data: EventData, user: Annotated[User, Depends(is_member)]):
