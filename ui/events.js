@@ -40,11 +40,14 @@ async function fillEvents(events) {
         console.log(event)
         let event_text
         if (event.type === "Kino") {
-            let people = intersperse(event.people, ", ").reduce((elem, total) => elem + total)
-            let add_person_button = `<button class="interact" type="button" onclick="askNewPerson('${event["_id"]}')">
-                <span class="material-symbols-outlined">add_circle</span>
-            </button>`
-            event_text = `Wer kommt mit ins Kino in <span class="filmtitle">${event.name}</span>? - ${people} ${add_person_button}`
+            let people
+            if (event.people != null && event.people != "") {
+                let add_person_button = `<button class="interact" type="button" onclick="askNewPerson('${event["_id"]}')">
+                    <span class="material-symbols-outlined">add_circle</span>
+                </button>`
+                people = " - " + intersperse(event.people, ", ").reduce((elem, total) => elem + total) + `${add_person_button}`
+            }
+            event_text = `Wer kommt mit ins Kino in <span class="filmtitle">${event.name}</span>? ${people}`
             
         } else if (event.type === "Filmclub")
             event_text = `Der Filmclub stellt vor: <span class="filmtitle">${event.name}</span>`
