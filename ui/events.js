@@ -40,7 +40,7 @@ async function fillEvents(events) {
         console.log(event)
         let event_text
         if (event.type === "Kino") {
-            let people
+            let people = ""
             if (event.people != null && event.people != "") {
                 let add_person_button = `<button class="interact" type="button" onclick="askNewPerson('${event["_id"]}')">
                     <span class="material-symbols-outlined">add_circle</span>
