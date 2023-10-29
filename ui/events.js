@@ -31,7 +31,7 @@ async function submitNewPerson(e) {
         document.getElementById("add-person-form").reset()
         getNextEvents()
     } catch(err) {
-        document.getElementById("add-person-error").innerHTML = text
+        document.getElementById("add-person-error").innerHTML = err
     }
 }
 
@@ -64,10 +64,8 @@ async function fillEvents(events) {
         if ("link" in event && event.link !== "")
             link = event.link
 
-        return `<a class="event" href="${link}" target="_blank">
-            <div><span class="date">${datetimeFormat(event.datetime)}</span> @<span class="location">${event.location}</span></div>
-            <div>${event_text}</div>
-        </a>`
+        return `<div><span class="date">${datetimeFormat(event.datetime)}</span> <a class="event" href="${link}" target="_blank">@<span class="location">${event.location}</span></a></div>
+            <div>${event_text}</div>`
     })
     document.getElementById("events-inject").innerHTML = event_rows.join("")
 }
@@ -100,7 +98,7 @@ async function submitNewEvent(e) {
         document.getElementById("new-event-form").reset()
         getNextEvents()
     } catch(err) {
-        document.getElementById("new-event-error").innerHTML = text
+        document.getElementById("new-event-error").innerHTML = err
     }
 }
 

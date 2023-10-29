@@ -22,7 +22,7 @@ async def write_event(data: PersonData, user: Annotated[User, Depends(is_member)
     if event is None:
         raise HTTPException(status_code=500, detail=f"Invalid event_id {data.event_id}")
 
-    if event.people != None:
+    if "people" in event and event["people"] != None:
         result = db.events.update_one({"_id": ObjectId(data.event_id)}, {"$push": {"people": data.name}})
     else:
         result = db.events.update_one({"_id": ObjectId(data.event_id)}, {"$set": {"people": [data.name]}})
