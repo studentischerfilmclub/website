@@ -1,8 +1,9 @@
 import {fetchApi, websocketApi} from "./api.js"
 import {getElections, handleElectionsWebsocketMessage} from "./elections.js"
-import {getNextEvents} from "./events.js"
+import {getNextEvents, askNewPerson} from "./events.js"
 
 window.addEventListener("load", onLoad)
+window.askNewPerson = askNewPerson
 let socket;
 
 function makeid(length) {

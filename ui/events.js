@@ -9,12 +9,44 @@ const default_links = {
     "casa": "https://www.casa-del-caffe.de/",
 }
 
+function intersperse(arr, sep) {
+    return arr.flatMap(elem => [sep, elem]).slice(1)
+}
+
+let current_ask_person_event_id = ""
+export function askNewPerson(event_id) {
+    current_ask_person_event_id = event_id
+    document.getElementById("add-person").style.visibility = "visible"
+    document.getElementById("add-person-error").innerHTML = ""
+    document.getElementById("add-person-form").addEventListener("submit", submitNewPerson)
+}
+
+async function submitNewPerson(e) {
+    e.preventDefault()
+    try {
+        let data = getFormData(e.target)
+        data.event_id = current_ask_person_event_id
+        await fetchApi("POST", "events/add_person", data)
+        document.getElementById("add-person").style.visibility = "hidden"
+        document.getElementById("add-person-form").reset()
+        getNextEvents()
+    } catch(err) {
+        document.getElementById("add-person-error").innerHTML = text
+    }
+}
+
 async function fillEvents(events) {
     const event_rows = events.map((event) => {
-        let event_text;
-        if (event.type === "Kino")
-            event_text = `Wir sehen: <span class="filmtitle">${event.name}</span>`
-        else if (event.type === "Filmclub")
+        console.log(event)
+        let event_text
+        if (event.type === "Kino") {
+            let people = intersperse(event.people, ", ").reduce((elem, total) => elem + total)
+            let add_person_button = `<button class="interact" type="button" onclick="askNewPerson('${event["_id"]}')">
+                <span class="material-symbols-outlined">add_circle</span>
+            </button>`
+            event_text = `Wer kommt mit ins Kino in <span class="filmtitle">${event.name}</span>? - ${people} ${add_person_button}`
+            
+        } else if (event.type === "Filmclub")
             event_text = `Der Filmclub stellt vor: <span class="filmtitle">${event.name}</span>`
         else if (event.type === "Treffen")
             event_text = `Wir treffen uns zum labern/orgern! <span class="filmtitle">${event.name}</span>`
@@ -55,10 +87,12 @@ async function askEvent() {
 }
 
 async function submitNewEvent(e) {
-    e.preventDefault();
+    e.preventDefault()
     try {
-        console.log(getFormData(e.target))
-        await fetchApi("POST", "events/post", getFormData(e.target))
+        let data = getFormData(e.target)
+        data.people = data.people.split(", ")
+        console.log(data)
+        await fetchApi("POST", "events/post", data)
         document.getElementById("new-event").style.visibility = "hidden"
         document.getElementById("new-event-form").reset()
         getNextEvents()

@@ -80,6 +80,24 @@
 
             <div id="events-inject" class="container"></div>
 
+            <div id="add-person" class="popup-container">
+                <div class="background"></div>
+                <div class="popup-window">
+                    Du möchtest dabei sein?
+                    <form id="add-person-form">
+                        <label for="date">Name </label>
+                        <input class="new-event-item" type="text" id="name" name="name">
+                        <div></div>
+                        <div class="ok-container">
+                            <button class="button" type="submit">
+                                Ok
+                            </button>
+                        </div>
+                    </form>
+                    <div id="add-person-error"></div>
+                </div>
+            </div>
+
             <div class="alle-container">
                 <button class="button" id="get-all-events">
                     alle
@@ -88,8 +106,7 @@
                     neu
                 </button>
                 <div id="new-event" class="popup-container">
-                    <div class="background">
-                    </div>
+                    <div class="background"></div>
                     <div class="popup-window">
                         Neues Event:
                         <form id="new-event-form">
@@ -99,6 +116,8 @@
                             <input class="new-event-item" type="time" id="time" name="time" value="19:00">
                             <label for="name">Name </label>
                             <input class="new-event-item" type="text" id="name" name="name" value="Test">
+                            <label for="name">Person(en)</label>
+                            <input class="new-event-item" type="text" id="people" name="people" value="Max, Joseph">
                             <label for="type">Typ </label>
                             <input class="new-event-item" type="text" id="type" name="type" value="Kino/Filmclub/Treffen">
                             <label for="location">Ort</label>

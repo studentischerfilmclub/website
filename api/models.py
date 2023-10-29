@@ -1,8 +1,12 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, Extra
 import uuid
 import datetime
 from bson import ObjectId
 from typing import Optional, Dict, Any, List
+
+class PersonData(BaseModel):
+    name: str
+    event_id: str
 
 class EventData(BaseModel):
     date: datetime.date
@@ -11,12 +15,17 @@ class EventData(BaseModel):
     type: str
     location: str
     link: Optional[str]
+    people: list[str]
+
+    class Config:
+        extra = Extra.forbid
 
 class Event(BaseModel):
     id: ObjectId = Field(alias="_id")
     name: str
     datetime: datetime.datetime
     location: str
+    people: list[str]
     type: str
 
     class Config:
@@ -54,6 +63,9 @@ class ElectionData(BaseModel):
     candidates: list[str]
     votes: int
     title: str
+
+    class Config:
+        extra = Extra.forbid
 
 class User(BaseModel):
     username: str

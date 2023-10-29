@@ -9,11 +9,18 @@ from fastapi import APIRouter, HTTPException, Depends
 from fastapi.encoders import jsonable_encoder
 
 import pymongo
+from bson import ObjectId
 
 router = APIRouter(
     prefix="/events",
     tags=["events"]
 )
+
+@router.post("/add_person")
+async def write_event(data: PersonData, user: Annotated[User, Depends(is_member)]):
+    result = db.events.update_one({"_id": ObjectId(data.event_id)}, {"$push": {"people": data.name}})
+    if result.matched_count == 0:
+        raise HTTPException(status_code=500, detail=f"Invalid event_id {data.event_id}")
 
 @router.post("/post")
 async def write_event(event_data: EventData, user: Annotated[User, Depends(is_member)]):
