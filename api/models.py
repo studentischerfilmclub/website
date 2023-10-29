@@ -15,7 +15,7 @@ class EventData(BaseModel):
     type: str
     location: str
     link: Optional[str]
-    people: list[str]
+    people: Optional[list[str]]
 
     class Config:
         extra = Extra.forbid
@@ -25,7 +25,7 @@ class Event(BaseModel):
     name: str
     datetime: datetime.datetime
     location: str
-    people: list[str]
+    people: Optional[list[str]]
     type: str
 
     class Config:
