@@ -10,8 +10,8 @@ services:
         labels:
             # traefik config
            - "holten.publish=j"
-           - "traefik.http.routers.ui.rule=Host(`studentischerfilmclub.de`)"
-           - "traefik.http.routers.ui.tls.certResolver=letsencrypt"
+           - "traefik.http.routers.ui-stud.rule=Host(`studentischerfilmclub.de`)"
+           - "traefik.http.routers.ui-stud.tls.certResolver=letsencrypt"
 
     api:
         build:
@@ -23,9 +23,9 @@ services:
         labels:
             # traefik config
            - "holten.publish=j"
-           - "traefik.http.routers.api.rule=Host(`studentischerfilmclub.de`) && PathPrefix(`/api/`)"
-           - "traefik.http.routers.api.tls.certResolver=letsencrypt"
-           - "traefik.http.routers.api.middlewares=strip-api-prefix@file"
+           - "traefik.http.routers.api-stud.rule=Host(`studentischerfilmclub.de`) && PathPrefix(`/api/`)"
+           - "traefik.http.routers.api-stud.tls.certResolver=letsencrypt"
+           - "traefik.http.routers.api-stud.middlewares=strip-api-prefix@file"
 
     db:
         image: mongo
@@ -33,8 +33,6 @@ services:
             - db:/data/db
             # after creating db volume
             # - "./dump:/dump"
-        ports:
-            - 27017:27017
         restart: on-failure:5
         networks:
             - traefik
