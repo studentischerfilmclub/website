@@ -89,7 +89,9 @@ body {
 .subtitle-second-line {
     display: flex;
     flex-direction: row;
+    flex-grow: 1;
     align-items: baseline;
+    justify-content: space-between;
 }
 
 .wir {
@@ -100,14 +102,25 @@ body {
 .melde {
     display: flex;
     flex-direction: row;
-    flex-shrink: 0;
     font-size: 0.9em;
+    justify-content: flex-start;
+    max-width: 100%;
 }
 
-.melde > a > img {
-    height: 0.9em;
+.socials > a > img {
+    height: 0.8em;
     position: relative;
     top: 7%;
+    margin-left: 2px;
+    flex: 1;
+}
+.socials > a {
+    margin-right: 2px;
+}
+
+.melde .text {
+    white-space: nowrap;
+    margin-left: 50px;
 }
 
 .heading {
@@ -129,7 +142,6 @@ body {
 .text {
     flex-direction: column;
     display: flex;
-    gap: 1em;
 }
 
 .election-date {
@@ -193,11 +205,11 @@ body {
 
 .socials {
     display: flex;
+    flex-shrink: 1;
     flex-direction: row;
-    justify-content: end;
-    align-items: end;
+    justify-content: flex-start;
+    align-items: flex-end;
     box-sizing: border-box;
-    color: var(--title-color);
 }
 
 
