@@ -82,7 +82,10 @@ async def close_election(user: Annotated[User, Depends(is_member)]):
     candidates = election["candidates"]
     for ballot in ballots:
         for candidate in ballot["vote"]:
-            candidates[candidate] += 1
+            if candidate not in candidates:
+                logging.warn(f"Ballot {ballot} voted for invalid candidate '{candidate}'. Ignoring vote!")
+            else:
+                candidates[candidate] += 1
 
     db.elections.update_one(
         filter={"_id": election["_id"]},
