@@ -5,5 +5,5 @@ COPY . .
 RUN chmod -R o+r .
 RUN chmod o+x assets
 
-RUN sed -i 's%API_URL = .*%API_URL = "https://studentischerfilmclub.de/api/"%' api.js
-RUN sed -i 's%API_WS_URL = .*%API_WS_URL = "wss://studentischerfilmclub.de/api/"%' api.js
+RUN sed -i 's%API_URL = .*%API_URL = "https://www.studentischerfilmclub.de/api/"%' api.js
+RUN sed -i 's%API_WS_URL = .*%API_WS_URL = "wss://www.studentischerfilmclub.de/api/"%' api.js
