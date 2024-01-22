@@ -1,6 +1,6 @@
 const DEBUG = true
-const API_URL = "http://localhost:5000/"
-const API_WS_URL = "ws://localhost:5000/"
+const API_URL = "http://localhost:5050/"
+const API_WS_URL = "ws://localhost:5050/"
 
 class FetchError extends Error {
     constructor(message, status) {
