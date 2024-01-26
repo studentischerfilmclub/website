@@ -29,15 +29,12 @@ async def write_event(data: PersonData):
 
 @router.post("/post")
 async def write_event(event_data: EventData, user: Annotated[User, Depends(is_member)]):
-    logging.info(f"0 {event_data}")
     event = jsonable_encoder(event_data)
-    logging.info(f"1 {event}")
     event["datetime"] = datetime.datetime.fromisoformat(event["date"] + "T" + event["time"])
     del event["date"]
     del event["time"]
     if not event["link"]:
         del event["link"]
-    logging.info(f"2 {event}")
     
     # check if document is inserted
     if db.events.count_documents(event) != 0:
