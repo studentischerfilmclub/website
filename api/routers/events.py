@@ -17,7 +17,7 @@ router = APIRouter(
 )
 
 @router.post("/add_person")
-async def write_event(data: PersonData, user: Annotated[User, Depends(is_member)]):
+async def write_event(data: PersonData):
     event = db.events.find_one({"_id": ObjectId(data.event_id)})
     if event is None:
         raise HTTPException(status_code=500, detail=f"Invalid event_id {data.event_id}")
