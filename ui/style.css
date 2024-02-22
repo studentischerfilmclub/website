@@ -263,6 +263,7 @@ button {
     font-size: 1em;
     font-family: var(--text-normal);
     text-decoration: underline;
+    width: fit-content;
 }
 
 .popup-container{
