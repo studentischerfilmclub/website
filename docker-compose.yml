@@ -22,7 +22,7 @@ services:
         ports:
           - 5050:5050
 
-    db:
+    stud-db:
         image: mongo
         volumes:
             - db:/data/db
