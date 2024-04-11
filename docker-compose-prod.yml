@@ -40,6 +40,9 @@ services:
         restart: on-failure:5
         networks:
             - traefik
+        # to add users
+        #ports:
+        #  - 27017:27017
 
 networks:
     traefik:
