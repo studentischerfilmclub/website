@@ -29,6 +29,11 @@ websocket_id_salt = random.getrandbits(128)
 
 @router.post("/post")
 async def post_election(election_data: ElectionData, user: Annotated[User, Depends(is_member)]):
+    # check if election already present
+    live_elections = list(db.elections.find({"live": True}))
+    if len(live_elections) > 0:
+        raise HTTPException(status_code=500, detail="live election present!") 
+
     election = {
         "live": True,
         "published": datetime.datetime.now(),
