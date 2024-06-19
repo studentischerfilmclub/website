@@ -1,11 +1,11 @@
 on:
   push:
     branches:
-      - main
+      - master
   
 jobs:
-  run_pull:
-    name: run pull
+  deploy:
+    name: deploy
     runs-on: ubuntu-latest
     
     steps:
