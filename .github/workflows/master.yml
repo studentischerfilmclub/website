@@ -7,6 +7,8 @@ jobs:
   deploy:
     name: deploy
     runs-on: ubuntu-latest
+    env:
+      WORK_DIR: /home/shared/studentischerfilmclub
     
     steps:
     - name: install ssh keys
@@ -17,9 +19,9 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
     - name: stash & pull
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git stash && git checkout main && git pull && exit"
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd $WORK_DIR && git stash && git checkout main && git pull && exit"
     - name: build & up
-      run: ssh ${{ secrets.SSH_USER }}@{{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && sudo docker-compose -f docker-compose-stura.yml build && sudo docker-compose -f docker-compose-stura.yml up -d && exit"
+      run: ssh ${{ secrets.SSH_USER }}@{{ secrets.SSH_HOST }} "cd $WORK_DIR && sudo docker-compose -f docker-compose-stura.yml build && sudo docker-compose -f docker-compose-stura.yml up -d && exit"
 
     - name: cleanup
       run: rm -rf ~/.ssh
