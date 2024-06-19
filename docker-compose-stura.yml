@@ -4,12 +4,11 @@ services:
         build:
             context: ui
             dockerfile: Dockerfile.prod 
-        restart: on-failure:5
         networks:
             - traefik
         labels:
             # traefik config
-           - "holten.publish=j"
+           - "traefik.enable=true"
            - "traefik.http.routers.ui-stud.rule=Host(`www.studentischerfilmclub.de`)"
            - "traefik.http.routers.ui-stud.tls.certResolver=letsencrypt"
            - "traefik.http.routers.redirect-stud.rule=Host(`studentischerfilmclub.de`)"
@@ -21,12 +20,11 @@ services:
         build:
             context: api
             dockerfile: Dockerfile.prod
-        restart: on-failure:5
         networks:
             - traefik
         labels:
             # traefik config
-           - "holten.publish=j"
+           - "traefik.enable=true"
            - "traefik.http.routers.api-stud.rule=Host(`www.studentischerfilmclub.de`) && PathPrefix(`/api/`)"
            - "traefik.http.routers.api-stud.tls.certResolver=letsencrypt"
            - "traefik.http.routers.api-stud.middlewares=strip-api-prefix@file"
@@ -36,8 +34,7 @@ services:
         volumes:
             - db:/data/db
             # after creating db volume
-            # - "./dump:/dump"
-        restart: on-failure:5
+            - "./dump:/dump"
         networks:
             - traefik
         # to add users
