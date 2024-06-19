@@ -1,0 +1,49 @@
+version: '3'
+services:
+    ui:
+        build:
+            context: ui
+            dockerfile: Dockerfile.prod 
+        networks:
+            - traefik
+        labels:
+            # traefik config
+           - "traefik.enable=true"
+           - "traefik.http.routers.ui-stud.rule=Host(`www.studentischerfilmclub.de`)"
+           - "traefik.http.routers.ui-stud.tls.certResolver=letsencrypt"
+           - "traefik.http.routers.redirect-stud.rule=Host(`studentischerfilmclub.de`)"
+           - "traefik.http.middlewares.mredirect-stud.redirectregex.regex=^https://studentischerfilmclub.de"
+           - "traefik.http.middlewares.mredirect-stud.redirectregex.replacement=https://www.studentischerfilmclub.de"
+           - "traefik.http.routers.redirect-stud.middlewares=mredirect-stud@docker"
+
+    api:
+        build:
+            context: api
+            dockerfile: Dockerfile.prod
+        networks:
+            - traefik
+        labels:
+            # traefik config
+           - "traefik.enable=true"
+           - "traefik.http.routers.api-stud.rule=Host(`www.studentischerfilmclub.de`) && PathPrefix(`/api/`)"
+           - "traefik.http.routers.api-stud.tls.certResolver=letsencrypt"
+           - "traefik.http.routers.api-stud.middlewares=strip-api-prefix@file"
+
+    stud-db:
+        image: mongo
+        volumes:
+            - db:/data/db
+            # after creating db volume
+            - "./dump:/dump"
+        networks:
+            - traefik
+        # to add users
+        #ports:
+        #  - 27017:27017
+
+networks:
+    traefik:
+        external: true
+
+volumes:
+    db:
