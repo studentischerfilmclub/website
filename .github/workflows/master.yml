@@ -22,7 +22,7 @@ jobs:
     - name: stash & pull
       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd $WORK_DIR && git stash && git checkout master && git pull && exit"
     - name: build & up
-      run: ssh ${{ secrets.SSH_USER }}@{{ secrets.SSH_HOST }} "cd $WORK_DIR && sudo docker-compose -f $COMPOSE build && sudo docker-compose -f $COMPOSE up -d && exit"
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd $WORK_DIR && sudo docker-compose -f $COMPOSE build && sudo docker-compose -f $COMPOSE up -d && exit"
 
     - name: cleanup
       run: rm -rf ~/.ssh
