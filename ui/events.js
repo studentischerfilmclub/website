@@ -114,5 +114,14 @@ async function submitNewEvent(e) {
 
 let choice_number = 3
 
-document.getElementById("get-all-events").onclick = getAllEvents
-document.getElementById("ask-event").onclick = askEvent
+const elementHandlers = {
+    "get-all-events": getAllEvents,
+    "ask-event": askEvent
+ };
+ 
+ for (const [id, handler] of Object.entries(elementHandlers)) {
+    const element = document.getElementById(id);
+    if (element) {
+        element.onclick = handler;
+    }
+ }

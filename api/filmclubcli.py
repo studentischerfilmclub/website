@@ -1,7 +1,7 @@
 #!/bin/python
 '''
 Usage:
-    filmclubcli.py insert_users [--salt-path=FILE]
+    filmclubcli.py insert_users [--salt-path=FILE] [--db=STR]
     filmclubcli.py delete_users <username>...
 
 Options:

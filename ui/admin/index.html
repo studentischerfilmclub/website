@@ -6,7 +6,7 @@
 
         <!--meta name="viewport" content="width=device-width, initial-scale=1.0"-->
 
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../style.css">
         <link rel="stylesheet" 
             href="https://fonts.googleapis.com/css?family=Permanent+Marker|REM|Inconsolata|Vina+Sans|Roboto+Mono" type="text/css">
         <link rel="stylesheet" 
@@ -72,7 +72,39 @@
                 <div id="next-movie-inject" class="container"></div>
             </div>
             <div class="movie-poster">
-                <img height="350vh" src="testposter.jpg">
+                <img height="350vh" src=../testposter.jpg>
+            </div>
+            <button class="button" id="ask-movie">
+                neu
+            </button>
+            <div id="new-movie" class="popup-container">
+                <div class="background"></div>
+                <div class="popup-window">
+                    Neues Event:
+                    <form id="new-movie-form">
+                        <label for="date">Datum </label>
+                        <input class="new-event-item" type="date" id="movie-date" name="date">
+                        <label for="time">Uhrzeit</label>
+                        <input class="new-event-item" type="time" id="time" name="time" value="19:00">
+                        <label for="name">Name </label>
+                        <input class="new-event-item" type="text" id="name" name="name" value="Test">
+                        <label for="name">Person(en)</label>
+                        <input class="new-event-item" type="text" id="people" name="people" value="Max, Joseph">
+                        <label for="type">Typ </label>
+                        <input class="new-event-item" type="text" id="type" name="type" value="Kino/Filmclub/Treffen/Filmabend">
+                        <label for="location">Ort</label>
+                        <input class="new-event-item" type="text" id="location" name="location" value="Data">
+                        <label for="location">Link (optional)</label>
+                        <input class="new-event-item" type="text" id="link" name="link">
+                        <div></div>
+                        <div class="ok-container">
+                            <button class="button" type="submit">
+                                Ok
+                            </button>
+                        </div>
+                    </form>
+                    <div id="new-movie-error"></div>
+                </div>
             </div>
         </div>
         <div class="content-block text" id="about-us">
@@ -92,7 +124,7 @@
                 Dies wird möglich gemacht durch finanzielle Unterstützung durch den Studierendenrat der Universität Heidelberg. 
             </div>
             <div class="sturalogo">
-                <img src="assets/StuRa_Logo.svg" width="30%">
+                <img src="/assets/StuRa_Logo.svg" width="30%">
             </div>
 
         </div>
@@ -126,6 +158,38 @@
                 <button class="button" id="get-all-events">
                     alle
                 </button>
+                <button class="button" id="ask-event">
+                    neu
+                </button>
+                <div id="new-event" class="popup-container">
+                    <div class="background"></div>
+                    <div class="popup-window">
+                        Neues Event:
+                        <form id="new-event-form">
+                            <label for="date">Datum </label>
+                            <input class="new-event-item" type="date" id="date" name="date">
+                            <label for="time">Uhrzeit</label>
+                            <input class="new-event-item" type="time" id="time" name="time" value="19:00">
+                            <label for="name">Name </label>
+                            <input class="new-event-item" type="text" id="name" name="name" value="Test">
+                            <label for="name">Person(en)</label>
+                            <input class="new-event-item" type="text" id="people" name="people" value="Max, Joseph">
+                            <label for="type">Typ </label>
+                            <input class="new-event-item" type="text" id="type" name="type" value="Kino/Filmclub/Treffen/Filmabend">
+                            <label for="location">Ort</label>
+                            <input class="new-event-item" type="text" id="location" name="location" value="Data">
+                            <label for="location">Link (optional)</label>
+                            <input class="new-event-item" type="text" id="link" name="link">
+                            <div></div>
+                            <div class="ok-container">
+                                <button class="button" type="submit">
+                                    Ok
+                                </button>
+                            </div>
+                        </form>
+                        <div id="new-event-error"></div>
+                    </div>
+                </div>
             </div>
         <div class="heading">
             Komm gerne dazu!
@@ -154,6 +218,7 @@
                 <div id="live-election-candidates"></div>
                 <div class="alle-container">
                     <button id="vote-button" class="button">vote</button>
+                    <button id="close-election" class="button" >schlie&#223en</button>
                 </div>
             </div>
             <div id="past-elections"></div>
@@ -162,11 +227,49 @@
             <button class="button" id="get-past-elections">
                 alle
             </button>
+            <button class="button" id="ask-new-election">
+                neu
+            </button>
+            <div id="new-election" class="popup-container">
+                <div class="background">
+                </div>
+                <div class="popup-window">
+                    Neue Abstimmung:
+                    <form id="new-election-form">
+                        Titel:
+                        <div class="new-election-votes">
+                            <input class="new-event-item" type="text" name="title" value="Für ...">
+                        </div>
+                        Filme:
+                        <div id="new-election-inputs">
+                            <input class="new-event-item" type="text" name="film 1" value="Film 1">
+                            <input class="new-event-item" type="text" name="film 2" value="Film 2">
+                            <input class="new-event-item" type="text" name="film 3" value="Film 3">
+                        </div>
+                        Stimmen:
+                        <div class="new-election-votes">
+                            <input class="new-event-item" type="text" name="votes" value="1">
+                        </div>
+                        <div class="button-container-vote">
+                            <button class="interact" id="election-add-choice" type="button">
+                                <span class="material-symbols-outlined">add_circle</span>
+                            </button>
+                            <button class="interact" id="election-remove-choice" type="button">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                            <button class="button" type="submit">
+                                Ok
+                            </button>
+                        </div>
+                        <div id="new-election-error"></div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-    <script type="module" src="index.js"> </script>
-    <script type="module" src="events.js"></script>
-    <script type="module" src="next-movie.js"></script>
-    <script type="module" src="elections.js"></script>
+    <script type="module" src="../index.js"> </script>
+    <script type="module" src="../events.js"></script>
+    <script type="module" src="../next-movie.js"></script>
+    <script type="module" src="../elections.js"></script>
 </body>
 </html>

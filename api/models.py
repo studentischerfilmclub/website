@@ -71,3 +71,13 @@ class User(BaseModel):
     username: str
     hashed_password: str
     admin: bool
+
+class Movie(BaseModel):
+    datetime: datetime.datetime
+    title: str
+    director: str
+    location: str
+    description: str
+    length: str
+    image_path: str
+    

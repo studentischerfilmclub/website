@@ -161,9 +161,21 @@ async function submitVote() {
     }
 }
 
-document.getElementById("get-past-elections").onclick = getPastElections
-document.getElementById("ask-new-election").onclick = askElection
-document.getElementById("close-election").onclick = closeElection
-document.getElementById("election-add-choice").onclick = addChoice
-document.getElementById("election-remove-choice").onclick = removeChoice
-document.getElementById("vote-button").onclick = submitVote
+const elementHandlers = {
+    "get-past-elections": getPastElections,
+    "ask-new-election": askElection,
+    "close-election": closeElection,
+    "election-add-choice": addChoice,
+    "election-remove-choice": removeChoice,
+    "vote-button": submitVote
+};
+
+for (const [id, handler] of Object.entries(elementHandlers)) {
+    console.log(id)
+    console.log(handler)
+    const element = document.getElementById(id);
+    if (element) {
+        element.onclick = handler;
+    }
+}
+

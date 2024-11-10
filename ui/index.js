@@ -1,4 +1,5 @@
 import {fetchApi, websocketApi} from "./api.js"
+import {getNextMovie} from "./next-movie.js"
 import {getElections, handleElectionsWebsocketMessage} from "./elections.js"
 import {getNextEvents, askNewPerson} from "./events.js"
 
@@ -21,6 +22,7 @@ function makeid(length) {
 async function onLoad() {
     getNextEvents()
     getElections()
+    getNextMovie()
 
     let websocket_id = localStorage.getItem("websocket_id")
     if (websocket_id === null) {
