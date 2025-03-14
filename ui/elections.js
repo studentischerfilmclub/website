@@ -59,20 +59,12 @@ async function getPastElections() {
     }
 }
 
-// usage example:
-// var a = ['a', 1, 'a', 2, '1'];
-// var unique = a.filter(onlyUnique);
-function onlyUnique(value, index, array) {
-    return array.indexOf(value) === index;
-}
-
 function createSingleElectionHtml(election) {
     const candidates_and_votes = Object
         .entries(election.candidates)
         .sort((a, b) => b[1] - a[1]) // sort by votes, descending
     const min_winning_votes = candidates_and_votes
         .map(([candidate, votes]) => votes)
-        .filter(onlyUnique)
         .slice(0, election.votes)
         .at(-1)
     const candidate_rows = candidates_and_votes
