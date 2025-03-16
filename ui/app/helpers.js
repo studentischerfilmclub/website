@@ -13,6 +13,6 @@ export function dateFormat(datetime) {
     return `${date[2]}.${date[1]}.${date[0]}`
 }
 
-export function getFormData(form) {
-    return Object.fromEntries((new FormData(form)).entries())
+export function getFormData(formData) {
+    return Object.fromEntries(formData.entries())
 }
