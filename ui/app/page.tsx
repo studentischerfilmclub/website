@@ -14,7 +14,8 @@ const translations = {
           too: "You're not alone!",
           bonus: "Bonus: For students of the University of Heidelberg a ticket is only 4€!",
           description: "The Heidelberg Student Film Club is a group for film enthusiasts to watch and discuss the amazing medium and artform that is film. Once a month (on a Tuesday evening), we select a film to present and screen at Karlstorkino in Südstadt. Whether you’re a total film buff or a complete novice - if you’re interested in cinema, please feel free to come along to our meetings and screenings!",
-     },
+          support: "This discount is made possible through the funding and support of the Heidelberg University Studierendenrat. ",
+      },
     de: { events: "Events",
           voting: "Abstimmungen",
           likeMovies: "Magst du Filme?",
@@ -22,7 +23,7 @@ const translations = {
           too: "Wir auch!",
           bonus: "Bonus: Für Studierende der Uni Heidelberg ist der Eintritt auf 4€ reduziert!",
           description: "Der Studentische Filmclub Heidelberg ist eine Gruppe Filmbegeisterter. Wir sehen und diskutieren Filmkunst. Einmal im Monat stellen wir einen selbst ausgewählten Film im Karlstorkino vor. Wenn du dich für Filmkunst interessierst und Ahnung davon hast oder haben möchtest, komm zu unseren Treffen und Kinovorstellungen.",
-          
+          support: "Dies wird möglich gemacht durch finanzielle Unterstützung durch den Studierendenrat der Universität Heidelberg. ",
      }
   };  
 
@@ -77,7 +78,7 @@ export default function Home() {
             </div>
 
             <div>
-                Dies wird möglich gemacht durch finanzielle Unterstützung durch den Studierendenrat der Universität Heidelberg. 
+                {translations[language].support}
             </div>
             <div className="sturalogo">
                 <img src="assets/StuRa_Logo.svg" width="30%" />
