@@ -1,14 +1,16 @@
 version: '3'
 services:
     ui:
-        image: nginx
+        build:
+            context: ui
         volumes:
-           - './ui:/usr/share/nginx/html'
+           - './ui:/app'
            - '/app/node_modules'
-        environment:
-           - CHOKIDAR_USEPOLLING=true
         ports:
-          - 3000:80
+          - 3000:3000
+        depends_on:
+            - api
+            - stud-db
 
     api:
         build:
