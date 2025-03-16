@@ -161,9 +161,9 @@ async function submitVote() {
     }
 }
 
-document.getElementById("get-past-elections").onclick = getPastElections
-document.getElementById("ask-new-election").onclick = askElection
-document.getElementById("close-election").onclick = closeElection
-document.getElementById("election-add-choice").onclick = addChoice
-document.getElementById("election-remove-choice").onclick = removeChoice
-document.getElementById("vote-button").onclick = submitVote
+// document.getElementById("get-past-elections").onclick = getPastElections
+// document.getElementById("ask-new-election").onclick = askElection
+// document.getElementById("close-election").onclick = closeElection
+// document.getElementById("election-add-choice").onclick = addChoice
+// document.getElementById("election-remove-choice").onclick = removeChoice
+// document.getElementById("vote-button").onclick = submitVote

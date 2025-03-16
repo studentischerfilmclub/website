@@ -278,7 +278,7 @@ button {
     justify-content: center;
     align-items: center;
     z-index: 1;
-    visibility: hidden;
+    /* visibility: hidden;*/
 }
 
 

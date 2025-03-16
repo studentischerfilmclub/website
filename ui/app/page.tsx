@@ -1,7 +1,129 @@
+'use client'
+
 import Image from "next/image";
-//import {} from "./index.js"
+import { useState, ReactNode } from "react";
+import {datetimeFormat, getFormData} from "./helpers.js"
+
+function EventPopUp(){
+  return (
+    <>
+      Neues Event:
+      <form id="new-event-form">
+          <label htmlFor="date">Datum </label>
+          <input className="new-event-item" type="date" id="date" name="date" />
+          <label htmlFor="time">Uhrzeit</label>
+          <input className="new-event-item" type="time" id="time" name="time" value="19:00" />
+          <label htmlFor="name">Name </label>
+          <input className="new-event-item" type="text" id="name" name="name" value="Test" />
+          <label htmlFor="name">Person(en)</label>
+          <input className="new-event-item" type="text" id="people" name="people" value="Max, Joseph" />
+          <label htmlFor="type">Typ </label>
+          <input className="new-event-item" type="text" id="type" name="type" value="Kino/Filmclub/Treffen/Filmabend" />
+          <label htmlFor="location">Ort</label>
+          <input className="new-event-item" type="text" id="location" name="location" value="Data" />
+          <label htmlFor="location">Link (optional)</label>
+          <input className="new-event-item" type="text" id="link" name="link" />
+          <div></div>
+          <div className="ok-container">
+              <button className="button" type="submit">
+                  Ok
+              </button>
+          </div>
+      </form>
+      <div id="new-event-error"></div>
+    </>
+  )
+}
+
+function ElectionPopUp(){
+  return (
+    <>
+      Neue Abstimmung:
+      <form id="new-election-form">
+          Titel:
+          <div className="new-election-votes">
+              <input className="new-event-item" type="text" name="title" value="Für ..." />
+          </div>
+          Filme:
+          <div id="new-election-inputs">
+              <input className="new-event-item" type="text" name="film 1" value="Film 1" />
+              <input className="new-event-item" type="text" name="film 2" value="Film 2" />
+              <input className="new-event-item" type="text" name="film 3" value="Film 3" />
+          </div>
+          Stimmen:
+          <div className="new-election-votes">
+              <input className="new-event-item" type="text" name="votes" value="1" />
+          </div>
+          <div className="button-container-vote">
+              <button className="interact" id="election-add-choice" type="button">
+                  <span className="material-symbols-outlined">add_circle</span>
+              </button>
+              <button className="interact" id="election-remove-choice" type="button">
+                  <span className="material-symbols-outlined">delete</span>
+              </button>
+              <button className="button" type="submit">
+                  Ok
+              </button>
+          </div>
+          <div id="new-election-error"></div>
+      </form>
+    </>
+  )
+}
+
+
+
+function PersonPopUp(){
+  return (
+    <>
+      Du möchtest dabei sein?
+      <form id="add-person-form">
+          <label htmlFor="date">Name </label>
+          <input className="new-event-item" type="text" id="name" name="name" />
+          <div></div>
+          <div className="ok-container">
+              <button className="button" type="submit">
+                  Ok
+              </button>
+          </div>
+      </form>
+      <div id="add-person-error"></div>
+    </>
+  )
+}
+
+function PopUpWindow({
+  visibility, 
+  children,
+  hidePopUp
+}: Readonly<{
+  visibility: boolean,
+  children: ReactNode,
+  hidePopUp: () => void,
+}>) {
+  if (visibility) {
+    console.log("visible!")
+    return (
+      <div className="popup-container"> 
+        <div className="background" onClick={hidePopUp}></div>
+        <div className="popup-window">
+          {children}
+        </div>
+      </div>
+    )
+  }
+  return (
+    <div></div>
+  );
+}
 
 export default function Home() {
+  const [stateNewElection, setStateNewElection] = useState(false); 
+  const [stateNewEvent, setStateNewEvent] = useState(false);
+  const [stateNewPerson, setStateNewPerson] = useState(false);
+
+  
+
   return (
     <div>
       <div className="content-block">
@@ -44,8 +166,8 @@ export default function Home() {
             <div>
                 Der Studentische Filmclub Heidelberg ist eine Gruppe Filmbegeisterter.
                 Wir sehen und diskutieren Filmkunst.
-                Einmal im Monat stellen wir einen selbst ausgew&aumlhlten Film im Karlstorkino vor.
-                Wenn du dich f&uumlr Filmkunst interessierst und Ahnung davon hast oder haben m&oumlchtest, 
+                Einmal im Monat stellen wir einen selbst ausgewählten Film im Karlstorkino vor.
+                Wenn du dich für Filmkunst interessierst und Ahnung davon hast oder haben möchtest, 
                 komm zu unseren Treffen und Kinovorstellungen.
             </div>
 
@@ -68,60 +190,20 @@ export default function Home() {
 
             <div id="events-inject" className="container"></div>
 
-            <div id="add-person" className="popup-container">
-                <div className="background"></div>
-                <div className="popup-window">
-                    Du möchtest dabei sein?
-                    <form id="add-person-form">
-                        <label htmlFor="date">Name </label>
-                        <input className="new-event-item" type="text" id="name" name="name" />
-                        <div></div>
-                        <div className="ok-container">
-                            <button className="button" type="submit">
-                                Ok
-                            </button>
-                        </div>
-                    </form>
-                    <div id="add-person-error"></div>
-                </div>
-            </div>
+            <PopUpWindow visibility={stateNewPerson} hidePopUp={() => setStateNewPerson(false)}>
+                <PersonPopUp/>
+            </PopUpWindow>
 
             <div className="alle-container">
                 <button className="button" id="get-all-events">
                     alle
                 </button>
-                <button className="button" id="ask-event">
+                <button className="button" id="ask-event" onClick={() => setStateNewEvent(true)}>
                     neu
                 </button>
-                <div id="new-event" className="popup-container">
-                    <div className="background"></div>
-                    <div className="popup-window">
-                        Neues Event:
-                        <form id="new-event-form">
-                            <label htmlFor="date">Datum </label>
-                            <input className="new-event-item" type="date" id="date" name="date" />
-                            <label htmlFor="time">Uhrzeit</label>
-                            <input className="new-event-item" type="time" id="time" name="time" value="19:00" />
-                            <label htmlFor="name">Name </label>
-                            <input className="new-event-item" type="text" id="name" name="name" value="Test" />
-                            <label htmlFor="name">Person(en)</label>
-                            <input className="new-event-item" type="text" id="people" name="people" value="Max, Joseph" />
-                            <label htmlFor="type">Typ </label>
-                            <input className="new-event-item" type="text" id="type" name="type" value="Filmabend/Kino/Filmclub/Treffen" />
-                            <label htmlFor="location">Ort</label>
-                            <input className="new-event-item" type="text" id="location" name="location" value="Data" />
-                            <label htmlFor="location">Link (optional)</label>
-                            <input className="new-event-item" type="text" id="link" name="link" />
-                            <div></div>
-                            <div className="ok-container">
-                                <button className="button" type="submit">
-                                    Ok
-                                </button>
-                            </div>
-                        </form>
-                        <div id="new-event-error"></div>
-                    </div>
-                </div>
+                <PopUpWindow visibility={stateNewEvent} hidePopUp={() => setStateNewEvent(false)}>
+                    <EventPopUp/>
+                </PopUpWindow>
             </div>
         <div className="heading">
             Komm gerne dazu!
@@ -131,7 +213,7 @@ export default function Home() {
     <div className="content-block" id="abstimmungen">
         <div className="heading"> Abstimmungen </div>
         <div className="text container">
-            Jeden Monat stimmen wir beim regelm&auml;ßigen Treffen am Donnerstag 
+            Jeden Monat stimmen wir beim regelmäßigen Treffen am Donnerstag 
             in der Woche unserer Vorstellung über Filme ab.
             Einer der Filme wird in der Regel ein bis zwei Monate später im Karlstorkino 
             von uns vorgestellt und dort gezeigt.
@@ -159,44 +241,12 @@ export default function Home() {
             <button className="button" id="get-past-elections">
                 alle
             </button>
-            <button className="button" id="ask-new-election">
+            <button className="button" id="ask-new-election" onClick={() => setStateNewElection(true)}>
                 neu
             </button>
-            <div id="new-election" className="popup-container">
-                <div className="background">
-                </div>
-                <div className="popup-window">
-                    Neue Abstimmung:
-                    <form id="new-election-form">
-                        Titel:
-                        <div className="new-election-votes">
-                            <input className="new-event-item" type="text" name="title" value="Für ..." />
-                        </div>
-                        Filme:
-                        <div id="new-election-inputs">
-                            <input className="new-event-item" type="text" name="film 1" value="Film 1" />
-                            <input className="new-event-item" type="text" name="film 2" value="Film 2" />
-                            <input className="new-event-item" type="text" name="film 3" value="Film 3" />
-                        </div>
-                        Stimmen:
-                        <div className="new-election-votes">
-                            <input className="new-event-item" type="text" name="votes" value="1" />
-                        </div>
-                        <div className="button-container-vote">
-                            <button className="interact" id="election-add-choice" type="button">
-                                <span className="material-symbols-outlined">add_circle</span>
-                            </button>
-                            <button className="interact" id="election-remove-choice" type="button">
-                                <span className="material-symbols-outlined">delete</span>
-                            </button>
-                            <button className="button" type="submit">
-                                Ok
-                            </button>
-                        </div>
-                        <div id="new-election-error"></div>
-                    </form>
-                </div>
-            </div>
+            <PopUpWindow visibility={stateNewElection} hidePopUp={() => setStateNewElection(false)}>
+                <ElectionPopUp />
+            </PopUpWindow>
         </div>
     </div>
     <script type="module" src="index.js"> </script>

@@ -115,4 +115,4 @@ async function submitNewEvent(e) {
 let choice_number = 3
 
 document.getElementById("get-all-events").onclick = getAllEvents
-document.getElementById("ask-event").onclick = askEvent
+// document.getElementById("ask-event").onclick = askEvent

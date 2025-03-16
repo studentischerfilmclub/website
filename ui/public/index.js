@@ -33,12 +33,7 @@ async function onLoad() {
 
 }
 
-async function hidePopupContainers() {
-    let containers = document.getElementsByClassName("popup-container")
-    for (let container of containers) {
-        container.style.visibility = "hidden"
-    }
-}
-const backgrounds = document.getElementsByClassName("background")
-const arr = [...backgrounds]
-arr.map((element) => {element.onclick = hidePopupContainers})
+
+// const backgrounds = document.getElementsByClassName("background")
+// const arr = [...backgrounds]
+// arr.map((element) => {element.onclick = hidePopupContainers})
