@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto_Mono, Vina_Sans } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "./languagecontext";
 
 const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
@@ -26,7 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${robotoMono.variable} ${vinaSans.variable}`}>
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );
