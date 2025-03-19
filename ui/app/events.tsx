@@ -58,13 +58,18 @@ function EventPopUp({ formRef, submit }: {
   )
 }
 
+async function submitNewPerson(e) {
+}
 
 
-function PersonPopUp(){
+function PersonPopUp({askId, formRef}: {askId: string, formRef: Ref<HTMLFormElement>}){
+
+    
+
   return (
     <>
       Du möchtest dabei sein?
-      <form id="add-person-form">
+      <form id="add-person-form" action={submitNewPerson} ref={formRef}>
           <label htmlFor="date">Name </label>
           <input className="new-event-item" type="text" id="name" name="name" />
           <div></div>
@@ -91,26 +96,11 @@ function intersperse(arr: any, sep: any) {
     return arr.flatMap((elem: any) => [sep, elem]).slice(1)
 }
 
-/*
-async function submitNewPerson(e) {
-    e.preventDefault()
-    try {
-        let data = getFormData(e.target)
-        data.event_id = current_ask_person_event_id
-        await fetchApi("POST", "events/add_person", data)
-        document.getElementById("add-person").style.visibility = "hidden"
-        document.getElementById("add-person-form").reset()
-        getNextEvents()
-    } catch(err) {
-        document.getElementById("add-person-error").innerHTML = err
-    }
-}
-*/
-
 export default function Events() {
     const [stateNewEvent, setStateNewEvent] = useState(false);
     const [stateNewPerson, setStateNewPerson] = useState(false);
-    const formRef = useRef<HTMLFormElement>(null);
+    const formRefNewEvent = useRef<HTMLFormElement>(null);
+
     const [errorMessage, setErrorMessage] = useState("");
     const [events, setEvents] = useState([]);
     const [askId, setAskId] = useState("");
@@ -136,7 +126,7 @@ export default function Events() {
             const resp = await fetchApi("POST", "events/post", data);
             console.log(resp)
             setStateNewEvent(false);
-            formRef.current?.reset();
+            formRefNewEvent.current?.reset();
             getNextEvents();
             setErrorMessage('');
         } catch(err: unknown) {
@@ -192,7 +182,7 @@ export default function Events() {
         const location_lower = event.location.toLowerCase()
         const link = default_links[location_lower] && event.link
 
-        return (<div>
+        return (<div id={event.id}>
             <div>
                 <span className="date">{datetimeFormat(event.datetime)}</span> <a className="event" href={link} target="_blank">@<span className="location">{event.location}</span></a>
             </div>
@@ -200,6 +190,20 @@ export default function Events() {
                 {event_text}
             </div>
         </div>)
+    }
+
+    const submitNewPerson = async (formData: FormData) => {
+        try {
+            let data = getFormData(formData)
+            data.event_id = askId
+            await fetchApi("POST", "events/add_person", data)
+            // document.getElementById("add-person").style.visibility = "hidden"
+            // document.getElementById("add-person-form").reset()
+            formRef.current?.reset()
+            getNextEvents()
+        } catch(err) {
+            document.getElementById("add-person-error").innerHTML = err
+        }
     }
 
     return (
@@ -224,7 +228,7 @@ export default function Events() {
                     neu
                 </button>
                 <PopUpWindow visibility={stateNewEvent} hidePopUp={() => setStateNewEvent(false)}>
-                    <EventPopUp formRef={formRef} submit={handleNewEventSubmit}/>
+                    <EventPopUp formRef={formRefNewEvent} submit={handleNewEventSubmit}/>
                 </PopUpWindow>
             </div>
 
