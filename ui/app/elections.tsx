@@ -7,8 +7,15 @@ import React from "react"
 
 interface ElectionData {
     candidates: string[],
-    votes: any, //todo
+    votes: number,
     title: string
+}
+
+interface Election {
+    candidates: Record<string, number>,
+    votes: any,
+    title: string
+    published: string
 }
 
 function ElectionPopUp({ formRef, submit }: {
@@ -84,8 +91,8 @@ export default function Elections() {
     const [stateNewElection, setStateNewElection] = useState(false); 
     const formRef = useRef<HTMLFormElement>(null);
     const [errorMessage, setErrorMessage] = useState("");
-    const [liveElection, setLiveElection] = useState<ElectionData | null>(null);
-    const [pastElections, setPastElections] = useState<ElectionData[]>([]);
+    const [liveElection, setLiveElection] = useState<Election | null>(null);
+    const [pastElections, setPastElections] = useState<Election[]>([]);
     const [voteStatus, setVoteStatus] = useState<Record<string, number>>({});
     const [votingMessage, setVotingMessage] = useState(<></>);
 
@@ -99,10 +106,11 @@ export default function Elections() {
 
     const getPastElections = async () => {
         const elections = await fetchApi("GET", "elections/past")
+        console.log(elections)
         setPastElections(elections)
     }
 
-    const formatLiveCandiates = (election: ElectionData | null) => {
+    const formatLiveCandiates = (election: Election | null) => {
         if (election === null) {
             return ""
         }
@@ -126,7 +134,7 @@ export default function Elections() {
         )
     }
 
-    const formatPastElection = (election: ElectionData | null) => {
+    const formatPastElection = (election: Election | null) => {
         if (election === null) {
             return ""
         }
