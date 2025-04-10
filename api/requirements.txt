@@ -4,3 +4,5 @@ uvicorn[standard]>=0.15.0
 pymongo
 websockets
 pyargon2
+pwinput
+docopt
