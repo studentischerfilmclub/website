@@ -1,0 +1,10 @@
+- elections: new: replace "add_circle" text with symbol
+- language switching is visually disgusting
+- fix salt is not found without restart after adding user
+- key prop for showing events
+- per default election looks/is? open?
+- elections "Close" Button does nothing
+- open elections are not shown (just not coded yet).
+
+Future: 
+- server side prerendering of events, elections with cache invalidation when updated
