@@ -20,7 +20,7 @@ export async function fetchApi(method: string, path: string, data?: any) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: "",
+        body: undefined,
         mode: undefined,
         credentials: undefined,
     }
