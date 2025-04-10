@@ -75,11 +75,12 @@ export default function Elections() {
     const [errorMessage, setErrorMessage] = useState("");
     const [liveElection, setLiveElection] = useState<ElectionData | null>(null);
     const [pastElections, setPastElections] = useState<ElectionData[]>([]);
-    const [voteStatus, setVoteStatus] = useState<Record<string, boolean>>({});
+    const [voteStatus, setVoteStatus] = useState<Record<string, number>>({});
 
     const getLiveElection = async () => {
         const election = await fetchApi("GET", "elections/live")
         setLiveElection(election)
+        setVoteStatus(election.candidates)
     }
 
     const getPastElections = async () => {
@@ -93,7 +94,7 @@ export default function Elections() {
         }
 
         const handleCandidateClick = (candidate: string) => {
-            setVoteStatus((prev) => ({...prev, [candidate]: !prev[candidate]}))
+            setVoteStatus((prev) => ({...prev, [candidate]: prev[candidate] === 1 ? 0 : 1}))
         }
 
         return (
