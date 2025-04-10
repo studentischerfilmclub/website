@@ -75,6 +75,7 @@ export default function Elections() {
     const [errorMessage, setErrorMessage] = useState("");
     const [liveElection, setLiveElection] = useState<ElectionData | null>(null);
     const [pastElections, setPastElections] = useState<ElectionData[]>([]);
+    const [voteStatus, setVoteStatus] = useState<Record<string, boolean>>({});
 
     const getLiveElection = async () => {
         const election = await fetchApi("GET", "elections/live")
@@ -86,8 +87,31 @@ export default function Elections() {
         setPastElections(elections)
     }
 
-    const formatElection = (election: ElectionData | null) => {
-        console.log(election)
+    const formatLiveCandiates = (election: ElectionData | null) => {
+        if (election === null) {
+            return ""
+        }
+
+        const handleCandidateClick = (candidate: string) => {
+            setVoteStatus((prev) => ({...prev, [candidate]: !prev[candidate]}))
+        }
+
+        return (
+            <>
+                {Object.keys(election.candidates).map((candidate) => {
+                    const isSelected = voteStatus[candidate];
+                    return (
+                        <div className={`candidate button filmtitle ${isSelected ? "dark-background" : ""}`} id={candidate} onClick={()=>handleCandidateClick(candidate)}>
+                            {candidate}
+                        </div>
+                    )
+                }
+                )}
+            </>
+        )
+    }
+
+    const formatPastElection = (election: ElectionData | null) => {
         if (election === null) {
             return ""
         }
@@ -149,17 +173,19 @@ export default function Elections() {
                                 <span className="live-dot pulse"></span> 
                             </div>
                         </div>
-                        <div className="filmtitle" id="live-election-title"></div>
+                        <div className="filmtitle" id="live-election-title">{liveElection?.title}</div>
                         <div id="voting-status"></div>
                     </div>
                     <div id="live-election-candidates"></div>
-                        {formatElection(liveElection)}
+                        {formatLiveCandiates(liveElection)}
                     <div className="alle-container">
                         <button id="vote-button" className="button">vote</button>
                         <button id="close-election" className="button" >schließen</button>
                     </div>
                 </div>
-                <div id="past-elections"></div>
+                <div id="past-elections">
+                    {pastElections.map(formatPastElection)}
+                </div>
             </div>
             <div className="alle-container">
                 <button className="button" id="get-past-elections">
