@@ -92,7 +92,9 @@ export default function Elections() {
     const getLiveElection = async () => {
         const election = await fetchApi("GET", "elections/live")
         setLiveElection(election)
-        setVoteStatus(election.candidates)
+        if (election) {
+            setVoteStatus(election.candidates)
+        }
     }
 
     const getPastElections = async () => {
@@ -138,6 +140,12 @@ export default function Elections() {
                 }</div>
             </div>
         )
+    }
+
+    const closeElection = async () => {
+        fetchApi("GET", "elections/close")
+        getPastElections()
+        getLiveElection()
     }
 
     useEffect(() => {
@@ -198,25 +206,27 @@ export default function Elections() {
                 von uns vorgestellt und dort gezeigt.
             </div>
             <div id="elections" className="container">
-                <div className="election" id="election-live">
-                    <div className="live-election-topbar">
-                        <div>
-                            <div className="live-dot-wrapper">
-                                <span className="live-dot pulse"></span> 
+                {liveElection && (
+                    <div className="election" id="election-live">
+                        <div className="live-election-topbar">
+                            <div>
+                                <div className="live-dot-wrapper">
+                                    <span className="live-dot pulse"></span> 
+                                </div>
+                            </div>
+                            <div className="filmtitle" id="live-election-title">{liveElection?.title}</div>
+                            <div id="voting-status">
+                                {votingMessage}
                             </div>
                         </div>
-                        <div className="filmtitle" id="live-election-title">{liveElection?.title}</div>
-                        <div id="voting-status">
-                            {votingMessage}
+                        <div id="live-election-candidates"></div>
+                            {formatLiveCandiates(liveElection)}
+                        <div className="alle-container">
+                            <button id="vote-button" className="button" onClick={submitVote}>vote</button>
+                            <button id="close-election" className="button" onClick={closeElection}>schließen</button>
                         </div>
                     </div>
-                    <div id="live-election-candidates"></div>
-                        {formatLiveCandiates(liveElection)}
-                    <div className="alle-container">
-                        <button id="vote-button" className="button" onClick={submitVote}>vote</button>
-                        <button id="close-election" className="button" >schließen</button>
-                    </div>
-                </div>
+                )}
                 <div id="past-elections">
                     {pastElections.map(formatPastElection)}
                 </div>
