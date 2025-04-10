@@ -1,8 +1,8 @@
 import PopUpWindow from "./popupwindow"
 import { useState, useRef, Ref, useEffect } from "react"
-import {datetimeFormat, getFormData} from "./helpers.js"
+import {dateFormat, getFormData} from "./helpers.js"
 import {fetchApi} from "./api"
-
+import React from "react"
 //TODO: current problem: election is live by default and elections can't be closed this makes it impossible to post new elections
 
 interface ElectionData {
@@ -131,13 +131,19 @@ export default function Elections() {
             return ""
         }
         return (
-            <div className="election">
-                <div className="election-title">{election.title}</div>
-                <div className="election-candidates">{
-                    Object.keys(election.candidates).map((candidate) =>
-                        <div className="election-candidate">{candidate}</div>
-                    )
-                }</div>
+            <div className="election" key={election.published}>
+                <div>
+                    <span>{election.title} </span>
+                    <span className="election-date">durchgeführt am {dateFormat(election.published)}</span>
+                </div>
+                <div className="candidates">
+                    {Object.keys(election.candidates).map((candidate) => {
+                        return (<React.Fragment key={candidate}>
+                            <div className="vote-number">{election.candidates[candidate]}</div>
+                            <div className="filmtitle">{candidate}</div>
+                        </React.Fragment>)
+                    })}
+                </div>
             </div>
         )
     }
