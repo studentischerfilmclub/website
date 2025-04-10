@@ -68,6 +68,17 @@ function ElectionPopUp({ formRef, submit }: {
   )
 }
 
+function makeid(length: number) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+}
 
 export default function Elections() {
     const [stateNewElection, setStateNewElection] = useState(false); 
@@ -76,6 +87,7 @@ export default function Elections() {
     const [liveElection, setLiveElection] = useState<ElectionData | null>(null);
     const [pastElections, setPastElections] = useState<ElectionData[]>([]);
     const [voteStatus, setVoteStatus] = useState<Record<string, number>>({});
+    const [votingMessage, setVotingMessage] = useState(<></>);
 
     const getLiveElection = async () => {
         const election = await fetchApi("GET", "elections/live")
@@ -131,6 +143,13 @@ export default function Elections() {
     useEffect(() => {
         getLiveElection()
         getPastElections()
+        if (typeof window !== 'undefined') {
+            let websocket_id = localStorage.getItem("websocket_id")
+            if (websocket_id === null) {
+                websocket_id = makeid(16)
+                localStorage.setItem("websocket_id", websocket_id)
+            }
+        }
     }, [])
 
     const handleNewElectionSubmit = async (formData: FormData) => {
@@ -157,6 +176,18 @@ export default function Elections() {
         }
     }
 
+    const submitVote = async () => {
+        const candidates = Object.keys(voteStatus);
+        const vote = candidates.filter((candidate) => voteStatus[candidate] === 1);
+        try {
+            const websocketId = localStorage.getItem('websocket_id');
+            await fetchApi('POST', `elections/vote/${websocketId}`, vote);
+            setVotingMessage(<span className="vote-ok">ok!</span>);
+        } catch (err: any) {
+            setVotingMessage(<span className="vote-error">{err.msg}</span>);
+        }
+    };
+
     return (
         <div className="content-block" id="abstimmungen">
             <div className="heading"> Abstimmungen </div>
@@ -175,12 +206,14 @@ export default function Elections() {
                             </div>
                         </div>
                         <div className="filmtitle" id="live-election-title">{liveElection?.title}</div>
-                        <div id="voting-status"></div>
+                        <div id="voting-status">
+                            {votingMessage}
+                        </div>
                     </div>
                     <div id="live-election-candidates"></div>
                         {formatLiveCandiates(liveElection)}
                     <div className="alle-container">
-                        <button id="vote-button" className="button">vote</button>
+                        <button id="vote-button" className="button" onClick={submitVote}>vote</button>
                         <button id="close-election" className="button" >schließen</button>
                     </div>
                 </div>

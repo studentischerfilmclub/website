@@ -432,7 +432,13 @@ button {
     align-items: center;
 }
 
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
 .vote-ok {
+    animation: fadeInOut 2s ease-in-out;
     color: green;
 }
 
