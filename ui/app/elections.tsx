@@ -102,7 +102,7 @@ export default function Elections() {
                 {Object.keys(election.candidates).map((candidate) => {
                     const isSelected = voteStatus[candidate];
                     return (
-                        <div className={`candidate button filmtitle ${isSelected ? "dark-background" : ""}`} id={candidate} onClick={()=>handleCandidateClick(candidate)}>
+                        <div className={`candidate button filmtitle ${isSelected ? "dark-background" : ""}`} key={candidate} onClick={()=>handleCandidateClick(candidate)}>
                             {candidate}
                         </div>
                     )
