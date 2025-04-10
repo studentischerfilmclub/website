@@ -1,5 +1,5 @@
 import PopUpWindow from "./popupwindow"
-import { useState, useRef, Ref } from "react"
+import { useState, useRef, Ref, useEffect } from "react"
 import {datetimeFormat, getFormData} from "./helpers.js"
 import {fetchApi} from "./api"
 
@@ -73,6 +73,40 @@ export default function Elections() {
     const [stateNewElection, setStateNewElection] = useState(false); 
     const formRef = useRef<HTMLFormElement>(null);
     const [errorMessage, setErrorMessage] = useState("");
+    const [liveElection, setLiveElection] = useState<ElectionData | null>(null);
+    const [pastElections, setPastElections] = useState<ElectionData[]>([]);
+
+    const getLiveElection = async () => {
+        const election = await fetchApi("GET", "elections/live")
+        setLiveElection(election)
+    }
+
+    const getPastElections = async () => {
+        const elections = await fetchApi("GET", "elections/past")
+        setPastElections(elections)
+    }
+
+    const formatElection = (election: ElectionData | null) => {
+        console.log(election)
+        if (election === null) {
+            return ""
+        }
+        return (
+            <div className="election">
+                <div className="election-title">{election.title}</div>
+                <div className="election-candidates">{
+                    Object.keys(election.candidates).map((candidate) =>
+                        <div className="election-candidate">{candidate}</div>
+                    )
+                }</div>
+            </div>
+        )
+    }
+
+    useEffect(() => {
+        getLiveElection()
+        getPastElections()
+    }, [])
 
     const handleNewElectionSubmit = async (formData: FormData) => {
         
@@ -119,6 +153,7 @@ export default function Elections() {
                         <div id="voting-status"></div>
                     </div>
                     <div id="live-election-candidates"></div>
+                        {formatElection(liveElection)}
                     <div className="alle-container">
                         <button id="vote-button" className="button">vote</button>
                         <button id="close-election" className="button" >schließen</button>
