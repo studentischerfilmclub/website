@@ -6,5 +6,9 @@
 - elections "Close" Button does nothing
 - open elections are not shown (just not coded yet).
 
+Functionality: 
+- add next movie component that loads from databank (including image in binary)
+- admin page
+
 Future: 
 - server side prerendering of events, elections with cache invalidation when updated
