@@ -3,7 +3,7 @@ import logging
 import os
 
 from .models import *
-from .routers import events, elections
+from .routers import events, elections, nextMovie
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -30,6 +30,7 @@ if DEBUG:
 # routers
 app.include_router(events.router)
 app.include_router(elections.router)
+app.include_router(nextMovie.router)
 
 # debug for checking if up
 @app.get("/")

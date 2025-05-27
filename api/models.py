@@ -71,3 +71,14 @@ class User(BaseModel):
     username: str
     hashed_password: str
     admin: bool
+
+
+class NextMovie(BaseModel):
+    title: str
+    director: str
+    year: int
+    link: str
+    datetime: datetime.datetime
+    presenter: str
+    location: str
+    image: Optional[bytes] = None  # Binary image data
